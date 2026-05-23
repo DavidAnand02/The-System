@@ -79,9 +79,11 @@ export function useRankNotifications() {
     prevJobsRankRef.current = currentJobsRank;
   }, [jobs, notify, loading]);
 
-  // Set initial load to false after first successful load
+  // Set initial load to false after loading finished, reset to true when loading starts
   useEffect(() => {
-    if (!loading) {
+    if (loading) {
+      isInitialLoadRef.current = true;
+    } else {
       // Small delay to ensure all refs are populated from the first run of the effects above
       const timer = setTimeout(() => {
         isInitialLoadRef.current = false;
