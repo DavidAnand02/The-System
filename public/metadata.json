@@ -1,0 +1,7 @@
+{
+  "name": "The System V3 - For Github pages",
+  "description": "A gamified RPG-style player leveling system to track personal development, skills, quests, and career progression with Gemini-powered quest generation.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

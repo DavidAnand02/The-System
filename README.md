@@ -1,11 +1,24 @@
-<div align="center">
+# The System v3
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+A Solo Leveling inspired RPG system for real-life productivity.
 
-  <h1>Built with AI Studio</h2>
+## Deployment Instructions
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+### GitHub Pages
+1. Go to your repository settings on GitHub.
+2. Navigate to **Secrets and variables** > **Actions**.
+3. Add a new repository secret:
+   - `GEMINI_API_KEY`: Your Google Gemini API Key.
+4. The included GitHub Action will automatically build and deploy the app to the `gh-pages` branch whenever you push to `main`.
+5. In **Settings** > **Pages**, ensure the source is set to "Deploy from a branch" and select `gh-pages`.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+### Vercel
+1. Import your repository into Vercel.
+2. In the project settings, add the following environment variable:
+   - `GEMINI_API_KEY`: Your Google Gemini API Key.
+3. Vercel will automatically detect the Vite project and deploy it.
 
-</div>
+## Technical Notes
+- Built with React 19, Vite, and Tailwind CSS 4.
+- Uses a Global Proxy to handle `fetch` read-only errors in restricted environments.
+- Standardized `src/` directory structure for better compatibility with CI/CD pipelines.
