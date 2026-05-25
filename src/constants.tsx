@@ -276,13 +276,13 @@ export const INSPIRATIONAL_QUOTES = [
 ];
 
 export const getRankDetails = (level: number) => {
-  if (level >= 95) return { label: 'S', color: 'text-amber-400', glow: 'drop-shadow-[0_0_30px_rgba(251,191,36,0.7)]', glowColor: '#fbbf24' };
-  if (level >= 85) return { label: 'A', color: 'text-purple-500', glow: 'drop-shadow-[0_0_25px_rgba(168,85,247,0.6)]', glowColor: '#a855f7' };
-  if (level >= 75) return { label: 'B', color: 'text-blue-500', glow: 'drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]', glowColor: '#3b82f6' };
-  if (level >= 60) return { label: 'C', color: 'text-emerald-500', glow: 'drop-shadow-[0_0_8px_rgba(16,185,129,0.25)]', glowColor: '#10b981' };
-  if (level >= 40) return { label: 'D', color: 'text-cyan-400', glow: 'drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]', glowColor: '#22d3ee' };
-  if (level >= 20) return { label: 'E', color: 'text-slate-400', glow: '', glowColor: '#94a3b8' };
-  return { label: 'F', color: 'text-slate-500', glow: '', glowColor: '#64748b' };
+  if (level >= 95) return { label: 'S', color: 'text-amber-400', bgColor: 'bg-amber-400', glow: 'drop-shadow-[0_0_30px_rgba(251,191,36,0.7)]', glowColor: '#fbbf24' };
+  if (level >= 85) return { label: 'A', color: 'text-purple-500', bgColor: 'bg-purple-500', glow: 'drop-shadow-[0_0_25px_rgba(168,85,247,0.6)]', glowColor: '#a855f7' };
+  if (level >= 75) return { label: 'B', color: 'text-blue-500', bgColor: 'bg-blue-500', glow: 'drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]', glowColor: '#3b82f6' };
+  if (level >= 60) return { label: 'C', color: 'text-emerald-500', bgColor: 'bg-emerald-500', glow: 'drop-shadow-[0_0_8px_rgba(16,185,129,0.25)]', glowColor: '#10b981' };
+  if (level >= 40) return { label: 'D', color: 'text-cyan-400', bgColor: 'bg-cyan-400', glow: 'drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]', glowColor: '#22d3ee' };
+  if (level >= 20) return { label: 'E', color: 'text-slate-400', bgColor: 'bg-slate-400', glow: '', glowColor: '#94a3b8' };
+  return { label: 'F', color: 'text-slate-500', bgColor: 'bg-slate-500', glow: '', glowColor: '#64748b' };
 };
 
 export const RANK_UP_MESSAGES: Record<string, { title: string, message: string }> = {

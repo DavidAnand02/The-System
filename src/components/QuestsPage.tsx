@@ -377,7 +377,7 @@ const QuestsPage: React.FC<QuestsPageProps> = React.memo(({ onBack, onQuestOutco
     <div className="w-full space-y-6 sm:space-y-10 animate-in slide-in-from-top duration-700 pb-20 px-4 sm:px-0 overflow-x-hidden">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div className="flex items-center space-x-3 sm:space-x-8 min-w-0">
-          <button onClick={onBack} className="p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/95 backdrop-blur-2xl hover:bg-system-accent/10 transition-all duration-500 border border-white/10 hover:border-system-accent/50 group shadow-2xl hover:-translate-x-1 shrink-0">
+          <button onClick={onBack} className="p-2.5 sm:p-4 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/82 backdrop-blur-2xl hover:bg-system-accent/10 transition-all duration-500 border border-white/10 hover:border-system-accent/50 group shadow-2xl hover:-translate-x-1 shrink-0">
             <ICONS.ChevronLeft className="w-5 h-5 sm:w-8 sm:h-8 group-hover:-translate-x-1 transition-transform" />
           </button>
           <div className="flex flex-col space-y-0.5 sm:space-y-2 min-w-0">
@@ -395,7 +395,7 @@ const QuestsPage: React.FC<QuestsPageProps> = React.memo(({ onBack, onQuestOutco
       </div>
 
       {showAddForm && (
-        <div className="bg-system-bg-panel-solid/95 border border-system-accent/30 p-4 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] space-y-6 sm:space-y-8 animate-in zoom-in-95 backdrop-blur-2xl shadow-2xl shadow-system-accent/5">
+        <div className="bg-system-bg-panel-solid/82 border border-system-accent/30 p-4 sm:p-10 rounded-[1.5rem] sm:rounded-[2.5rem] space-y-6 sm:space-y-8 animate-in zoom-in-95 backdrop-blur-2xl shadow-2xl shadow-system-accent/5">
           <div className="flex items-center space-x-4">
             <div className="p-2 sm:p-3 rounded-xl sm:rounded-2xl bg-system-accent/10 border border-system-accent/20">
               <ICONS.Plus className="w-5 h-5 sm:w-6 sm:h-6 text-system-accent" />
@@ -591,13 +591,13 @@ const QuestsPage: React.FC<QuestsPageProps> = React.memo(({ onBack, onQuestOutco
             placeholder="Search Quest Data Matrix..." 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-system-bg-panel-solid/95 border border-white/5 rounded-xl sm:rounded-2xl pl-10 sm:pl-14 pr-4 sm:pr-6 py-2.5 sm:py-4 text-[10px] sm:text-sm text-system-text focus:border-system-accent/40 outline-none transition-all duration-500 backdrop-blur-xl shadow-xl font-orbitron"
+            className="w-full bg-system-bg-panel-solid/82 border border-white/5 rounded-xl sm:rounded-2xl pl-10 sm:pl-14 pr-4 sm:pr-6 py-2.5 sm:py-4 text-[10px] sm:text-sm text-system-text focus:border-system-accent/40 outline-none transition-all duration-500 backdrop-blur-xl shadow-xl font-orbitron"
           />
           <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-system-accent/40 group-focus-within:text-system-accent transition-colors duration-500">
             <ICONS.Search className="w-4 h-4 sm:w-6 sm:h-6" />
           </div>
         </div>
-        <div className="flex items-center space-x-4 bg-system-bg-panel-solid/95 border border-white/5 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl backdrop-blur-xl shadow-xl shrink-0">
+        <div className="flex items-center space-x-4 bg-system-bg-panel-solid/82 border border-white/5 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl backdrop-blur-xl shadow-xl shrink-0">
           <span className="text-[9px] sm:text-[10px] font-black font-orbitron text-system-text-muted uppercase tracking-[0.2em] sm:tracking-[0.3em]">Sort</span>
           <div className="h-4 w-[1px] bg-white/10" />
           <Select 
@@ -635,7 +635,7 @@ const QuestsPage: React.FC<QuestsPageProps> = React.memo(({ onBack, onQuestOutco
             <span className="text-[9px] text-system-text-muted font-bold uppercase tracking-widest">Last 100 Entries</span>
           </div>
           
-          <div id="quests-log-container" className="bg-system-bg-panel-solid/95 border border-white/5 rounded-[2rem] overflow-hidden backdrop-blur-xl shadow-2xl h-fit">
+          <div id="quests-log-container" className="bg-system-bg-panel-solid/82 border border-white/5 rounded-[2rem] overflow-hidden backdrop-blur-xl shadow-2xl h-fit">
             {questLog && questLog.length > 0 ? (
               <div className="divide-y divide-white/5">
                 {questLog.map((entry, index) => (
@@ -877,7 +877,7 @@ const QuestCard = React.memo<{
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`p-4 sm:p-8 rounded-2xl sm:rounded-[2rem] border-l-4 sm:border-l-8 transition-all duration-500 relative group overflow-hidden bg-system-bg-panel-solid/95 backdrop-blur-2xl shadow-2xl hover:-translate-y-2 ${
+      className={`p-4 sm:p-8 rounded-2xl sm:rounded-[2rem] border-l-4 sm:border-l-8 transition-all duration-500 relative group overflow-hidden bg-system-bg-panel-solid/82 backdrop-blur-2xl shadow-2xl hover:-translate-y-2 ${
         isDone 
           ? 'bg-green-500/5 border-green-500/40 grayscale-[0.3]' 
           : isExpired 

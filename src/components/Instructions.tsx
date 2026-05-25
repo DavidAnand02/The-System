@@ -3,12 +3,12 @@ import React from 'react';
 import { ICONS } from '../constants';
 
 const Instructions: React.FC<{ onBack: () => void, onSupport: () => void }> = ({ onBack, onSupport }) => (
-  <div className="max-w-4xl w-full space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
+  <div className="max-w-4xl w-full mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-20">
     <div className="flex items-center space-x-4">
       <button id="instructions-back-btn" onClick={onBack} className="p-2 rounded-lg bg-system-bg-panel hover:bg-system-accent/10 transition-colors group">
         <ICONS.ChevronLeft className="group-hover:-translate-x-1 transition-transform" />
       </button>
-      <h1 className="text-3xl font-orbitron system-glow text-system-accent uppercase tracking-tighter">System Manual v3.0</h1>
+      <h1 className="text-3xl font-orbitron system-glow text-system-accent uppercase tracking-tighter">System Manual</h1>
     </div>
 
     <div id="instructions-content" className="bg-system-bg-panel p-8 rounded-3xl border border-system-accent/20 space-y-12 text-sm leading-relaxed text-system-text-muted font-light backdrop-blur-md">

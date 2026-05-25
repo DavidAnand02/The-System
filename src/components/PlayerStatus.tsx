@@ -322,7 +322,7 @@ export const PlayerStatus: React.FC<PlayerStatusProps> = React.memo(({
   return (
     <div className="w-full space-y-8 animate-in slide-in-from-bottom duration-700 pb-20">
       <div className="flex items-center space-x-6">
-        <button onClick={onBack} className="p-3 rounded-xl bg-system-bg-panel-solid/95 backdrop-blur-2xl hover:bg-system-accent/10 transition-all duration-500 border border-white/10 hover:border-system-accent/50 group shadow-2xl hover:-translate-x-1">
+        <button onClick={onBack} className="p-3 rounded-xl bg-system-bg-panel-solid/82 backdrop-blur-2xl hover:bg-system-accent/10 transition-all duration-500 border border-white/10 hover:border-system-accent/50 group shadow-2xl hover:-translate-x-1">
           <ICONS.ChevronLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
         </button>
         <div className="space-y-1">
@@ -360,20 +360,20 @@ export const PlayerStatus: React.FC<PlayerStatusProps> = React.memo(({
         </div>
       </header>
 
-      {/* MAIN CONTENT GRID: TETRIS-LIKE PACKING */}
-      <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.8fr_1.2fr] gap-8 items-start relative z-20">
+      {/* MAIN CONTENT GRID: STRETCHED ALIGNED COLUMNS */}
+      <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.8fr_1.2fr] gap-8 items-stretch relative z-20">
         {/* TABLET 2-COLUMN WRAPPER */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8 lg:contents">
           {/* COLUMN 1: RANK & IDENTITY */}
           <div className="space-y-8 flex flex-col">
           {/* RANK DISPLAY - ISOLATED & HOLOGRAPHIC */}
-          <div id="status-rank-card" className="relative group/rank flex flex-col items-center justify-center shrink-0 p-8 bg-system-bg-panel-solid/95 backdrop-blur-sm border border-white/5 rounded-2xl min-h-[320px] overflow-hidden">
+          <div id="status-rank-card" className="relative group/rank flex flex-col items-center justify-center shrink-0 p-8 bg-system-bg-panel-solid/82 backdrop-blur-sm border border-white/5 rounded-2xl min-h-[320px] overflow-hidden">
             {/* Primary Glow */}
             <motion.div 
               key={`primary-${rank.label}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: rank.label === 'C' ? 0.05 : 0.15 }}
-              className={`absolute -inset-20 rounded-full blur-[6rem] ${rank.color.replace('text-', 'bg-')}`} 
+              className={`absolute -inset-20 rounded-full blur-[6rem] ${rank.bgColor}`} 
               transition={{ duration: 1.5 }}
             />
             {/* Secondary Core Glow */}
@@ -381,7 +381,7 @@ export const PlayerStatus: React.FC<PlayerStatusProps> = React.memo(({
               key={`secondary-${rank.label}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: rank.label === 'C' ? 0.08 : 0.25 }}
-              className={`absolute inset-0 rounded-full blur-[3rem] ${rank.color.replace('text-', 'bg-')}`}
+              className={`absolute inset-0 rounded-full blur-[3rem] ${rank.bgColor}`}
               transition={{ duration: 1 }}
             />
             
@@ -432,7 +432,7 @@ export const PlayerStatus: React.FC<PlayerStatusProps> = React.memo(({
         {/* COLUMN 2: LEVEL & SIMULATION */}
         <div className="space-y-8 flex flex-col">
           {/* LEVEL & SIMULATION PANEL - RE-CONTAINED */}
-          <div id="status-level-panel" className="flex-1 flex flex-col gap-8 bg-system-bg-panel-solid/95 backdrop-blur-2xl rounded-[2.5rem] border border-white/10 p-6 md:p-8 shadow-2xl shadow-black/40 relative overflow-hidden">
+          <div id="status-level-panel" className="flex-1 flex flex-col gap-8 bg-system-bg-panel-solid/82 backdrop-blur-2xl rounded-[2.5rem] border border-white/10 p-6 md:p-8 shadow-2xl shadow-black/40 relative overflow-hidden">
             <div className="absolute top-0 left-0 w-2 h-full bg-system-accent/20" />
             
             <div className="flex justify-between items-end relative z-10">
@@ -541,13 +541,14 @@ export const PlayerStatus: React.FC<PlayerStatusProps> = React.memo(({
         {/* END TABLET WRAPPER */}
 
         {/* COLUMN 3: STAT MATRIX (DESKTOP ONLY) */}
-        <div className="hidden lg:block lg:sticky lg:top-24">
-          <div id="status-radar" className="flex flex-col w-full relative">
+        <div className="hidden lg:block h-full">
+          <div id="status-radar" className="flex flex-col w-full h-full relative">
             <StatMatrix 
               player={player}
               effectiveStats={effectiveStats}
               actualTotalStats={actualTotalStats}
               updateStat={updateStat}
+              className="h-full flex flex-col justify-between"
             />
           </div>
         </div>

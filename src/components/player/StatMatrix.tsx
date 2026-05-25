@@ -12,6 +12,7 @@ interface StatMatrixProps {
   effectiveStats: PlayerStats;
   actualTotalStats: number;
   updateStat: (key: StatKey, delta: number) => void;
+  className?: string;
 }
 
 const STAT_ABBREVIATIONS: Record<StatKey, string> = {
@@ -31,7 +32,8 @@ const StatMatrix: React.FC<StatMatrixProps> = ({
   player,
   effectiveStats,
   actualTotalStats,
-  updateStat
+  updateStat,
+  className = ''
 }) => {
   const radarData = useMemo(() => {
     return Object.values(StatKey).map(key => ({
@@ -42,11 +44,11 @@ const StatMatrix: React.FC<StatMatrixProps> = ({
   }, [effectiveStats]);
 
   return (
-    <div className="space-y-8">
+    <div className={`space-y-8 ${className}`}>
       {/* RADAR CHART PANEL */}
-      <div className="relative group">
+      <div className="relative group flex-1 flex flex-col">
         <div className="absolute -inset-0.5 bg-gradient-to-r from-system-accent/20 to-transparent rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000"></div>
-        <div className="relative bg-system-bg-panel/40 backdrop-blur-md rounded-2xl border border-white/5 p-6">
+        <div className="relative bg-system-bg-panel/40 backdrop-blur-md rounded-2xl border border-white/5 p-6 flex-1 flex flex-col">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <div className="w-1 h-6 bg-system-accent shadow-[0_0_10px_var(--system-accent-glow)]"></div>
@@ -57,7 +59,7 @@ const StatMatrix: React.FC<StatMatrixProps> = ({
             </div>
           </div>
           
-          <div className="h-72 w-full">
+          <div className="h-72 lg:h-auto lg:flex-1 w-full min-h-[18rem]">
             <ResponsiveContainer width="100%" height="100%">
               <RadarChart cx="50%" cy="50%" outerRadius="80%" data={radarData}>
                 <PolarGrid stroke="rgba(255,255,255,0.05)" />

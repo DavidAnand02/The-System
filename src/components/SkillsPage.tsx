@@ -38,58 +38,101 @@ const SkillCard: React.FC<{ skillId: string; isSelected: boolean; onClick: () =>
     <motion.div 
       layout
       onClick={onClick}
-      className={`group relative p-6 lg:p-8 rounded-2xl lg:rounded-3xl border transition-all cursor-pointer overflow-hidden backdrop-blur-xl ${
+      className={`group relative p-6 lg:p-8 rounded-2xl lg:rounded-3xl border transition-all duration-500 cursor-pointer overflow-hidden backdrop-blur-xl ${
         isSelected 
-          ? 'bg-system-accent/15 border-system-accent shadow-[0_0_40px_rgba(0,255,157,0.15)]' 
-          : 'bg-system-bg-panel-solid/95 border-system-accent/10 hover:border-system-accent/30 hover:bg-system-accent/5 shadow-lg'
+          ? 'bg-gradient-to-b from-[var(--glow-color)]/10 to-[var(--glow-color)]/0' 
+          : 'bg-system-bg-panel-solid/82 hover:bg-gradient-to-b hover:from-white/[0.03] hover:to-transparent'
       }`}
-      style={{ '--glow-color': rank.glowColor } as any}
+      style={{ 
+        '--glow-color': rank.glowColor,
+        boxShadow: isSelected 
+          ? `0 0 30px ${rank.glowColor}20, inset 0 0 15px ${rank.glowColor}10` 
+          : '0 4px 20px rgba(0, 0, 0, 0.2)',
+        borderColor: isSelected 
+          ? `${rank.glowColor}70` 
+          : 'rgba(255, 255, 255, 0.05)'
+      } as any}
     >
-      {/* Rank Badge - Top Left */}
-      <div className={`absolute top-0 left-0 px-4 py-1.5 lg:px-5 lg:py-2 rounded-br-2xl font-orbitron text-[9px] lg:text-[10px] font-bold ${rank.color} bg-system-accent/10 border-r border-b border-system-accent/20 z-20 tracking-[0.2em]`}>
-        RANK {rank.label}
+      {/* Holographic Laser Scanner Sweep */}
+      <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-transparent via-[var(--glow-color)]/5 to-transparent opacity-0 group-hover:opacity-100 pointer-events-none rounded-t-[inherit] overflow-hidden">
+        <div className="w-full h-full animate-scan-line" />
+      </div>
+
+      {/* Cybernetic Dot Matrix Pattern */}
+      <div className="absolute inset-0 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-500 pointer-events-none bg-[radial-gradient(currentColor_1px,transparent_1px)] [background-size:12px_12px] z-0 text-[var(--glow-color)]" />
+
+      {/* Tactile Corner Brackets */}
+      <div className="absolute top-3 left-3 w-2.5 h-2.5 border-t border-l border-white/20 group-hover:border-[var(--glow-color)]/60 transition-colors duration-300 pointer-events-none z-10" />
+      <div className="absolute top-3 right-3 w-2.5 h-2.5 border-t border-r border-white/20 group-hover:border-[var(--glow-color)]/60 transition-colors duration-300 pointer-events-none z-10" />
+      <div className="absolute bottom-3 left-3 w-2.5 h-2.5 border-b border-l border-white/20 group-hover:border-[var(--glow-color)]/60 transition-colors duration-300 pointer-events-none z-10" />
+      <div className="absolute bottom-3 right-3 w-2.5 h-2.5 border-b border-r border-white/20 group-hover:border-[var(--glow-color)]/60 transition-colors duration-300 pointer-events-none z-10" />
+
+      {/* Rank Badge - Top Left Floating holographic chip */}
+      <div 
+        className="absolute top-0 left-0 px-3.5 py-1.5 rounded-br-2xl font-orbitron text-[8px] lg:text-[9px] font-bold tracking-[0.2em] z-20 border-r border-b border-white/10 bg-white/[0.03] flex items-center gap-1.5"
+      >
+        <span className={`inline-block w-1.5 h-1.5 rounded-full ${rank.bgColor} animate-pulse`} style={{ boxShadow: `0 0 6px ${rank.glowColor}` }} />
+        <span className="text-system-text-muted opacity-60">RANK</span>
+        <span className={`${rank.color} font-black`}>{rank.label}</span>
       </div>
 
       {/* Icon Background */}
-      <div className={`absolute -right-6 -top-6 opacity-5 group-hover:opacity-10 transition-opacity ${rank.color} pointer-events-none`}>
+      <div className={`absolute -right-6 -top-6 opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500 ${rank.color} pointer-events-none z-0`}>
         {skill.type === 'mental' ? <ICONS.Brain size={120} /> : <ICONS.Dumbbell size={120} />}
       </div>
 
       <div className="mt-10 lg:mt-12 space-y-6 lg:space-y-8 relative z-10">
         <div className="flex justify-between items-center gap-4">
           <div className="flex-1 min-w-0">
-            <h3 className={`font-orbitron text-base lg:text-lg uppercase tracking-tight break-words transition-colors line-clamp-2 ${isSelected ? 'text-system-accent' : 'text-system-text group-hover:text-system-accent'}`}>
+            <h3 className={`font-orbitron text-base lg:text-lg lg:text-xl uppercase tracking-wider font-black break-words transition-colors line-clamp-2 ${isSelected ? 'text-system-accent' : 'text-system-text group-hover:text-system-accent'}`}>
               {skill.name}
             </h3>
-            <p className="text-[8px] lg:text-[9px] text-system-text-muted uppercase tracking-[0.2em] opacity-60 font-orbitron mt-1 break-words line-clamp-2">
+            <p className="text-[8px] lg:text-[9px] text-system-text-muted uppercase tracking-[0.2em] opacity-60 font-orbitron mt-1.5 break-words line-clamp-2">
               {skill.description || 'Neural Pathway Active'}
             </p>
           </div>
-          <div className="flex flex-col items-end shrink-0 bg-system-accent/5 px-2 sm:px-3 py-1.5 sm:py-2 rounded-xl border border-system-accent/10 min-w-[60px] sm:min-w-[80px]">
-            <div className="flex items-baseline gap-0.5 sm:gap-1">
-              <span className={`text-xl sm:text-2xl lg:text-4xl font-black font-orbitron ${rank.color} system-glow leading-none tracking-tighter`}>{level}</span>
-              <span className="text-[7px] sm:text-[8px] lg:text-[10px] text-system-text-muted font-bold font-orbitron opacity-50">LV</span>
+          
+          {/* Tactical Level HUD Capsule */}
+          <div className="flex flex-col items-end shrink-0 bg-white/[0.01] pl-3.5 pr-2.5 py-1.5 rounded-r-xl border-y border-r border-white/5 border-l-2 border-l-[var(--glow-color)] min-w-[70px] sm:min-w-[90px] relative overflow-hidden transition-colors" style={{ boxShadow: `inset 0 1px 1px rgba(255,255,255,0.02)` }}>
+            <div className="absolute inset-0 bg-gradient-to-r from-[var(--glow-color)]/[0.03] to-transparent pointer-events-none" />
+            <div className="flex items-baseline gap-0.5 sm:gap-1 relative z-10">
+              <span className={`text-xl sm:text-2xl lg:text-3xl font-black font-orbitron ${rank.color} leading-none tracking-tighter`} style={{ textShadow: `0 0 10px ${rank.glowColor}40` }}>{level}</span>
+              <span className="text-[7px] sm:text-[8px] lg:text-[9px] text-system-text-muted font-bold font-orbitron opacity-50">LV</span>
             </div>
-            <div className="text-[7px] sm:text-[8px] lg:text-[9px] font-orbitron text-system-accent uppercase tracking-widest mt-0.5 sm:mt-1 opacity-70 whitespace-nowrap">
-              {Math.floor(skill.hours)}H MASTERY
+            <div className="text-[6px] sm:text-[7px] lg:text-[8px] font-orbitron text-system-accent uppercase tracking-widest mt-1 opacity-70 whitespace-nowrap relative z-10">
+              {Math.floor(skill.hours)}H MST
             </div>
           </div>
         </div>
 
         <div className="space-y-2.5">
           <div className="flex justify-between text-[8px] lg:text-[9px] font-orbitron uppercase tracking-[0.3em]">
-            <span className="text-system-text-muted/60">Evolution Protocol</span>
-            <span className={`${rank.color} font-bold`}>{Math.floor(progress)}%</span>
+            <span className="text-system-text-muted/60">Level Progress</span>
+            <span className={`${rank.color} font-bold`} style={{ textShadow: `0 0 5px ${rank.glowColor}30` }}>{Math.floor(progress)}%</span>
           </div>
-          <div className="h-1.5 lg:h-2 bg-system-accent/5 rounded-full overflow-hidden border border-system-accent/10 shadow-inner">
+          
+          {/* Segmented Progress Meter */}
+          <div className="relative h-2 bg-white/[0.02] rounded-sm overflow-hidden border border-white/10 p-[1px]">
             <motion.div 
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              className={`h-full rounded-full ${rank.color.replace('text-', 'bg-')} ${isNearCompletion ? 'animate-pulse-glow' : ''} transition-all duration-1000 ease-out`}
+              className={`h-full rounded-sm ${rank.bgColor} ${isNearCompletion ? 'animate-pulse' : ''} transition-all duration-1000 ease-out`}
               style={{ 
-                boxShadow: isNearCompletion ? `0 0 20px ${rank.glowColor}` : 'none'
+                boxShadow: `0 0 10px ${rank.glowColor}`
               }}
             />
+            {/* Holographic segment block separators */}
+            <div className="absolute inset-0 flex justify-between pointer-events-none">
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+              <div className="w-[1.5px] h-full bg-system-bg-base" />
+            </div>
           </div>
         </div>
       </div>
@@ -228,7 +271,7 @@ const SkillsAnalytics: React.FC = React.memo(() => {
           <Activity className="w-6 h-6 lg:w-8 lg:h-8 text-system-accent system-glow" />
         </div>
         <div className="space-y-1">
-          <h3 className="text-2xl lg:text-4xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Neural Analytics</h3>
+          <h3 className="text-2xl lg:text-4xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Skill Analytics</h3>
           <p className="text-[9px] lg:text-[10px] uppercase tracking-[0.2em] lg:tracking-[0.3em] font-orbitron text-system-text-muted max-w-xl mx-auto opacity-70 leading-relaxed px-4">Review training distribution and focus areas.</p>
         </div>
       </div>
@@ -237,17 +280,17 @@ const SkillsAnalytics: React.FC = React.memo(() => {
         {/* Left Column: Training Distribution & Focus Areas */}
         <div className="lg:col-span-4 space-y-4 lg:space-y-6">
           {timeAllocationData.length > 0 && (
-            <div className="bg-system-bg-panel-solid/95 p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
+            <div className="bg-system-bg-panel-solid/82 p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
               <h4 className="text-[9px] lg:text-[10px] font-orbitron text-system-text-muted mb-4 lg:mb-6 text-center uppercase tracking-[0.3em] lg:tracking-[0.4em] opacity-60">Training Distribution</h4>
-              <div className="h-40 lg:h-48">
+              <div className="h-48 lg:h-56">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
+                  <PieChart margin={{ top: 10, bottom: 10, left: 10, right: 10 }}>
                     <Pie
                       data={timeAllocationData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={90}
+                      innerRadius={45}
+                      outerRadius={70}
                       paddingAngle={10}
                       dataKey="value"
                       stroke="none"
@@ -261,7 +304,7 @@ const SkillsAnalytics: React.FC = React.memo(() => {
                       itemStyle={{ color: '#fff' }}
                       formatter={(value: number) => [`${Math.floor(value)}h`, 'Time']}
                     />
-                    <Legend wrapperStyle={{ fontSize: '11px', fontFamily: 'Orbitron', textTransform: 'uppercase', paddingTop: '30px', opacity: 0.8 }} />
+                    <Legend wrapperStyle={{ fontSize: '11px', fontFamily: 'Orbitron', textTransform: 'uppercase', paddingTop: '10px', opacity: 0.8 }} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
@@ -269,17 +312,17 @@ const SkillsAnalytics: React.FC = React.memo(() => {
           )}
 
           {folderAllocationData.length > 0 && (
-            <div className="bg-system-bg-panel-solid/95 p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
+            <div className="bg-system-bg-panel-solid/82 p-4 lg:p-6 rounded-2xl lg:rounded-3xl border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
               <h4 className="text-[9px] lg:text-[10px] font-orbitron text-system-text-muted mb-4 lg:mb-6 text-center uppercase tracking-[0.3em] lg:tracking-[0.4em] opacity-60">Focus Areas</h4>
-              <div className="h-40 lg:h-48">
+              <div className="h-48 lg:h-56">
                 <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
+                  <PieChart margin={{ top: 10, bottom: 10, left: 10, right: 10 }}>
                     <Pie
                       data={folderAllocationData}
                       cx="50%"
                       cy="50%"
-                      innerRadius={60}
-                      outerRadius={90}
+                      innerRadius={45}
+                      outerRadius={70}
                       paddingAngle={10}
                       dataKey="value"
                       stroke="none"
@@ -302,7 +345,7 @@ const SkillsAnalytics: React.FC = React.memo(() => {
 
         {/* Right Column: Mastery Pulse (Placeholder or Summary Stats) */}
         <div className="lg:col-span-8">
-          <div className="bg-system-bg-panel-solid/95 border border-system-accent/10 rounded-2xl lg:rounded-[2.5rem] p-6 lg:p-10 backdrop-blur-2xl h-full flex flex-col justify-center items-center text-center space-y-6 lg:space-y-10 shadow-2xl relative overflow-hidden">
+          <div className="bg-system-bg-panel-solid/82 border border-system-accent/10 rounded-2xl lg:rounded-[2.5rem] p-6 lg:p-10 backdrop-blur-2xl h-full flex flex-col justify-center items-center text-center space-y-6 lg:space-y-10 shadow-2xl relative overflow-hidden">
             {/* Background Accents */}
             <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] lg:w-[400px] h-[250px] lg:h-[400px] bg-system-accent rounded-full blur-[50px] lg:blur-[80px]" />
@@ -325,7 +368,7 @@ const SkillsAnalytics: React.FC = React.memo(() => {
                 <div className="text-2xl lg:text-4xl font-bold text-system-text">{skills.length}</div>
               </div>
               <div className="space-y-1">
-                <span className="text-[9px] lg:text-[10px] text-system-text-muted uppercase font-orbitron tracking-[0.3em] lg:tracking-[0.4em] opacity-60">Neural Folders</span>
+                <span className="text-[9px] lg:text-[10px] text-system-text-muted uppercase font-orbitron tracking-[0.3em] lg:tracking-[0.4em] opacity-60">Folders</span>
                 <div className="text-2xl lg:text-4xl font-bold text-system-accent">{folders.length}</div>
               </div>
             </div>
@@ -495,9 +538,9 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
 
   return (
     <>
-      <div className="animate-in slide-in-from-right-8 duration-500 h-full flex-1 min-h-0 flex flex-col">
+      <div className="space-y-6 sm:space-y-8 animate-in fade-in zoom-in-95 duration-700 w-full animate-in slide-in-from-right-8">
       {/* Header */}
-      <div className="flex justify-between items-start mb-4 sm:mb-8 px-1 sm:px-0 shrink-0">
+      <div className="flex justify-between items-start mb-3 sm:mb-5 px-1 sm:px-0 shrink-0">
         <div className="flex-1 min-w-0">
           <div className="flex flex-wrap items-center gap-1.5 sm:gap-3 mb-3 sm:mb-4">
             <div className="px-2.5 sm:px-4 py-1 rounded-full bg-system-accent/10 border border-system-accent/20 text-[7px] sm:text-[9px] font-orbitron text-system-accent uppercase tracking-[0.2em] sm:tracking-[0.3em] backdrop-blur-md whitespace-nowrap">
@@ -517,7 +560,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                   e.target.style.height = 'auto';
                   e.target.style.height = e.target.scrollHeight + 'px';
                 }}
-                className="w-full bg-system-bg-panel-solid/95 border border-system-accent/20 rounded-xl sm:rounded-2xl px-5 sm:px-6 py-2 sm:py-3 text-system-text focus:outline-none focus:border-system-accent font-orbitron text-base sm:text-lg shadow-lg backdrop-blur-xl resize-none overflow-hidden h-auto min-h-[3rem]"
+                className="w-full bg-system-bg-panel-solid/82 border border-system-accent/20 rounded-xl sm:rounded-2xl px-5 sm:px-6 py-2 sm:py-3 text-system-text focus:outline-none focus:border-system-accent font-orbitron text-base sm:text-lg shadow-lg backdrop-blur-xl resize-none overflow-hidden h-auto min-h-[3rem]"
                 placeholder="Skill Name"
                 rows={1}
                 onFocus={(e) => {
@@ -528,7 +571,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
               <textarea
                 value={editSkillDesc}
                 onChange={e => setEditSkillDesc(e.target.value)}
-                className="w-full bg-system-bg-panel-solid/95 border border-system-accent/20 rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-4 text-system-text focus:outline-none focus:border-system-accent h-24 sm:h-32 resize-none text-xs sm:text-sm leading-relaxed shadow-lg backdrop-blur-xl"
+                className="w-full bg-system-bg-panel-solid/82 border border-system-accent/20 rounded-xl sm:rounded-2xl px-5 sm:px-6 py-3 sm:py-4 text-system-text focus:outline-none focus:border-system-accent h-24 sm:h-32 resize-none text-xs sm:text-sm leading-relaxed shadow-lg backdrop-blur-xl"
                 placeholder="Skill Description"
               />
               <div className="flex gap-2 sm:space-x-3">
@@ -568,15 +611,15 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
         </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto min-h-0 px-1 sm:px-6 custom-scrollbar space-y-4 sm:space-y-6 pb-12">
+      <div className="space-y-4 sm:space-y-6">
         <div className="grid grid-cols-12 gap-4 sm:gap-6">
-          {/* Left Column: Progress & Folder */}
-          <div className="col-span-12 lg:col-span-5 space-y-6 sm:space-y-8">
+          {/* Left Column: Progress, Folder, & Synergies */}
+          <div className="col-span-12 lg:col-span-5 space-y-4 sm:space-y-6">
             {/* Progress Section */}
-            <div className="bg-system-bg-panel-solid/95 rounded-3xl p-5 sm:p-7 border border-system-accent/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
+            <div className="bg-system-bg-panel-solid/82 rounded-3xl p-5 sm:p-7 border border-system-accent/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-system-accent/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-system-accent/10 transition-colors" />
               
-              <div className="grid grid-cols-2 gap-4 mb-8 relative">
+              <div className="grid grid-cols-2 gap-4 mb-5 relative">
                 <div className="p-3 sm:p-4 rounded-2xl bg-system-accent/5 border border-system-accent/10 flex flex-col justify-center min-w-0">
                   <div className="text-[7px] sm:text-[8px] font-orbitron text-system-accent uppercase tracking-[0.3em] opacity-60 mb-1.5 truncate">Current Phase</div>
                   <div className="flex items-baseline gap-1.5 sm:gap-2 min-w-0">
@@ -606,18 +649,18 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 <div className="space-y-3">
                   <div className="flex justify-between items-end px-1">
                     <div className="space-y-0.5 min-w-0">
-                      <div className="text-[7px] sm:text-[8px] font-orbitron text-system-accent uppercase tracking-[0.3em] opacity-60 truncate">Evolution Protocol</div>
+                      <div className="text-[7px] sm:text-[8px] font-orbitron text-system-accent uppercase tracking-[0.3em] opacity-60 truncate">Level Progress</div>
                       <div className="text-[9px] sm:text-[10px] font-black font-orbitron text-system-text uppercase tracking-[0.1em] truncate">To Level {level + 1}</div>
                     </div>
                     <div className="text-right shrink-0">
                       <div className="text-lg sm:text-xl font-black font-orbitron text-system-accent system-glow leading-none">{Math.floor(progress)}%</div>
                     </div>
                   </div>
-                  <div className="relative h-2.5 sm:h-3 bg-system-accent/5 rounded-full border border-system-accent/10 overflow-hidden p-0.5 shadow-inner group/bar">
+                  <div className="relative h-2.5 sm:h-3 bg-system-accent/5 rounded-full border border-system-accent/10 overflow-hidden p-0.5 shadow-inner group/bar animate-pulse-glow">
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${progress}%` }}
-                      className="h-full bg-gradient-to-r from-system-accent/40 to-system-accent rounded-full shadow-[0_0_10px_rgba(var(--system-accent-rgb),0.5)]"
+                      className="h-full bg-gradient-to-r from-system-accent/40 to-system-accent rounded-full shadow-[0_0_15px_var(--system-accent-glow)]"
                     />
                     <input 
                       type="range"
@@ -651,7 +694,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                     <motion.div 
                       initial={{ width: 0 }}
                       animate={{ width: `${totalPercent}%` }}
-                      className="h-full bg-gradient-to-r from-system-accent/40 to-system-accent rounded-full shadow-[0_0_10px_rgba(var(--system-accent-rgb),0.5)]"
+                      className="h-full bg-gradient-to-r from-system-accent/40 to-system-accent rounded-full shadow-[0_0_15px_var(--system-accent-glow)]"
                     />
                     <input 
                       type="range"
@@ -666,44 +709,44 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-3 mt-8 relative">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2.5 mt-8 relative lg:max-w-[210px]">
                 <button 
                   onClick={() => trainSkill(1)}
-                  className="flex-1 relative overflow-hidden group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center gap-4"
+                  className="flex-1 relative overflow-hidden group px-2.5 sm:px-4 lg:px-2 py-2 sm:py-3.5 lg:py-2 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 sm:gap-3 lg:gap-2"
                 >
                   <div className="absolute inset-0 bg-system-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="p-2 sm:p-3 rounded-lg bg-system-accent/10 border border-system-accent/20 group-hover:bg-system-accent/20 transition-colors">
-                    <Zap className="w-5 h-5 sm:w-6 sm:h-6 text-system-accent group-hover:scale-110 transition-transform" />
+                  <div className="p-1 sm:p-2 lg:p-1.5 rounded-lg bg-system-accent/10 border border-system-accent/20 group-hover:bg-system-accent/20 transition-colors shrink-0">
+                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 lg:w-3.5 lg:h-3.5 text-system-accent group-hover:scale-110 transition-transform" />
                   </div>
                   <div className="flex flex-col items-start min-w-0">
-                    <span className="font-orbitron text-lg sm:text-2xl font-black text-system-text leading-none tracking-tighter">+1H</span>
-                    <span className="font-orbitron text-[7px] sm:text-[8px] text-system-accent uppercase tracking-[0.3em] mt-1 truncate w-full opacity-60">Neural Log</span>
+                    <span className="font-orbitron text-sm sm:text-lg lg:text-xs xl:text-sm font-black text-system-text leading-none tracking-tighter opacity-95">+1H</span>
+                    <span className="font-orbitron text-[6px] sm:text-[8px] text-system-accent uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-1 truncate w-full opacity-60 lg:hidden">Neural Log</span>
                   </div>
                 </button>
                 <button 
                   onClick={() => trainSkill(5)}
-                  className="flex-1 relative overflow-hidden group p-3 sm:p-5 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center gap-4"
+                  className="flex-1 relative overflow-hidden group px-2.5 sm:px-4 lg:px-2 py-2 sm:py-3.5 lg:py-2 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 sm:gap-3 lg:gap-2"
                 >
                   <div className="absolute inset-0 bg-system-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="p-2 sm:p-3 rounded-lg bg-system-accent/10 border border-system-accent/20 group-hover:bg-system-accent/20 transition-colors">
-                    <Activity className="w-5 h-5 sm:w-6 sm:h-6 text-system-accent group-hover:scale-110 transition-transform" />
+                  <div className="p-1 sm:p-2 lg:p-1.5 rounded-lg bg-system-accent/10 border border-system-accent/20 group-hover:bg-system-accent/20 transition-colors shrink-0">
+                    <Activity className="w-4 h-4 sm:w-5 sm:h-5 lg:w-3.5 lg:h-3.5 text-system-accent group-hover:scale-110 transition-transform" />
                   </div>
                   <div className="flex flex-col items-start min-w-0">
-                    <span className="font-orbitron text-lg sm:text-2xl font-black text-system-text leading-none tracking-tighter">+5H</span>
-                    <span className="font-orbitron text-[7px] sm:text-[8px] text-system-accent uppercase tracking-[0.3em] mt-1 truncate w-full opacity-60">Neural Log</span>
+                    <span className="font-orbitron text-sm sm:text-lg lg:text-xs xl:text-sm font-black text-system-text leading-none tracking-tighter opacity-95">+5H</span>
+                    <span className="font-orbitron text-[6px] sm:text-[8px] text-system-accent uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-1 truncate w-full opacity-60 lg:hidden">Neural Log</span>
                   </div>
                 </button>
               </div>
             </div>
 
-            {/* Folder Assignment */}
-            <div className="bg-system-bg-panel-solid/95 rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-10 border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
-              <div className="flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
-                <FolderIcon className="w-5 h-5 sm:w-6 sm:h-6 text-system-accent" />
-                <h3 className="text-xs sm:text-sm font-orbitron text-system-text uppercase tracking-[0.2em] sm:tracking-[0.3em]">Directory Assignment</h3>
+            {/* Directory Assignment */}
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3 border-b border-system-accent/20 pb-3">
+                <FolderIcon className="w-4 h-4 text-system-accent" />
+                <h3 className="text-[10px] sm:text-[11px] font-black font-orbitron text-system-accent uppercase tracking-[0.2em]">Directory Assignment</h3>
               </div>
               
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-3">
                 <Select
                   value={skill.folderId || "none"}
                   onChange={(e) => moveSkillToFolder(e.target.value === "none" ? null : e.target.value)}
@@ -719,49 +762,106 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 </p>
               </div>
             </div>
+
+            {/* Synergy Storage */}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-system-accent/20 pb-3">
+                <div className="flex items-center space-x-3">
+                  <div className="p-1.5 rounded-lg bg-system-accent/10 text-system-accent">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-orbitron text-xs sm:text-sm uppercase tracking-[0.2em] text-system-text leading-none">Synergy Storage</h3>
+                    <span className="text-[7px] sm:text-[8px] text-system-text-muted uppercase tracking-widest mt-0.5 block opacity-60">Embedded neural effects</span>
+                  </div>
+                </div>
+                <button 
+                  onClick={() => setShowAddEffectForm(true)}
+                  className="p-1.5 bg-system-accent/10 text-system-accent hover:bg-system-accent hover:text-system-bg-base rounded-lg transition-all"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                {(!skill.effects || skill.effects.length === 0) ? (
+                  <div className="py-6 sm:py-8 text-center border border-dashed border-system-accent/20 rounded-2xl bg-system-bg-panel/10">
+                    <p className="text-[8px] sm:text-[9px] text-system-text-muted uppercase tracking-widest font-orbitron opacity-60">No synergies embedded</p>
+                  </div>
+                ) : (
+                  skill.effects.map((eff, idx) => (
+                    <div 
+                      key={idx}
+                      onClick={() => setEditingEffectIndex({ type: 'skill', index: idx, sourceId: skill.id })}
+                      className="group p-4 bg-system-bg-panel/40 border border-system-accent/10 rounded-2xl hover:border-system-accent/40 transition-all cursor-pointer relative overflow-hidden backdrop-blur-md"
+                    >
+                      <div className="absolute top-0 left-0 w-0.5 h-full bg-system-accent opacity-40 group-hover:opacity-100 transition-opacity" />
+                      <div className="flex justify-between items-start mb-1.5">
+                        <h4 className="text-[9px] sm:text-[10px] font-orbitron text-system-accent uppercase tracking-widest truncate mr-2">{eff.name}</h4>
+                        <Badge variant={eff.type === 'active' ? 'accent' : 'outline'} className="text-[6px] font-orbitron px-1.5 py-0.5 shrink-0">
+                          {eff.type === 'active' ? 'ACT' : 'PAS'}
+                        </Badge>
+                      </div>
+                      <p className="text-[8px] sm:text-[9px] text-system-text-muted font-light italic leading-relaxed">{eff.description}</p>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Rewards & History */}
+          {/* Right Column: Rewards, History, & Analysis */}
           <div className="col-span-12 lg:col-span-7 space-y-6 sm:space-y-8">
             {/* Evolution Rewards */}
-            <div className="bg-system-bg-panel-solid/95 rounded-2xl p-5 sm:p-7 border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
-              <div className="flex items-center gap-3 mb-5">
-                <Trophy className="w-5 h-5 text-amber-400" />
-                <h3 className="text-[10px] sm:text-xs font-orbitron text-system-text uppercase tracking-[0.2em] sm:tracking-[0.3em]">Evolution Rewards</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-system-accent/20 pb-3">
+                <div className="flex items-center space-x-3">
+                  <div className="p-1.5 rounded-lg bg-amber-400/10 text-amber-400">
+                    <Trophy className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-orbitron text-xs sm:text-sm uppercase tracking-[0.2em] text-system-text leading-none">Level Rewards</h3>
+                    <span className="text-[7px] sm:text-[8px] text-system-text-muted uppercase tracking-widest mt-0.5 block opacity-60">Stat bonuses applied per level</span>
+                  </div>
+                </div>
               </div>
               
               <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {skill.rewardConfig?.stats?.map(s => (
-                    <div key={s.stat} className="flex items-center justify-between bg-system-accent/5 px-4 py-2.5 rounded-xl border border-system-accent/10 group hover:border-system-accent/30 transition-all">
-                      <span className="capitalize font-orbitron text-[8px] sm:text-[9px] text-system-accent tracking-[0.1em] truncate mr-2">{s.stat}</span>
-                      <div className="flex items-center space-x-2 shrink-0">
-                        <input
-                          type="number"
-                          min="1"
-                          max="10"
-                          value={s.points}
-                          onChange={(e) => updateStatPoints(s.stat, parseInt(e.target.value) || 1)}
-                          className="w-10 bg-system-bg-panel/40 border border-system-accent/20 rounded-lg px-2 py-0.5 text-system-text focus:outline-none focus:border-system-accent font-orbitron text-[10px] text-right shadow-inner"
-                        />
-                        <button onClick={() => removeStatFromReward(s.stat)} className="text-system-text-muted hover:text-red-400 transition-colors p-1">
-                          <X className="w-3 h-3" />
-                        </button>
+                    <div key={s.stat} className="p-3 bg-system-bg-panel/40 border border-system-accent/10 rounded-2xl space-y-2 group backdrop-blur-md">
+                      <div className="flex items-center justify-between">
+                        <span className="capitalize font-orbitron text-[9px] text-system-accent tracking-[0.1em] truncate mr-2">{s.stat}</span>
+                        <div className="flex items-center space-x-2 shrink-0">
+                          <input
+                            type="number"
+                            min="1"
+                            max="10"
+                            value={s.points}
+                            onChange={(e) => updateStatPoints(s.stat, parseInt(e.target.value) || 1)}
+                            className="w-10 bg-system-bg-panel/40 border border-system-accent/20 rounded-md px-1.5 py-0.5 text-[8px] text-system-accent outline-none focus:border-system-accent/50 text-center font-mono h-6"
+                          />
+                          <button onClick={() => removeStatFromReward(s.stat)} className="text-system-text-muted hover:text-red-400 transition-colors p-1">
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
+                  
+                  {(!skill.rewardConfig?.stats || skill.rewardConfig.stats.length === 0) && (
+                    <div className="col-span-full py-6 text-center border border-dashed border-system-accent/10 rounded-2xl bg-system-bg-panel/10">
+                      <p className="text-[8px] sm:text-[9px] text-system-text-muted uppercase tracking-widest font-orbitron opacity-60">No rewards configured</p>
+                    </div>
+                  )}
                 </div>
-
-                {(!skill.rewardConfig?.stats || skill.rewardConfig.stats.length === 0) && (
-                  <div className="text-center py-6 text-[8px] sm:text-[9px] text-system-text-muted italic uppercase tracking-[0.2em] border border-dashed border-system-accent/10 rounded-xl opacity-40">No rewards configured</div>
-                )}
                 
                 <Select
                   value=""
                   onChange={(e) => {
                     if (e.target.value) addStatToReward(e.target.value as StatKey);
                   }}
-                  className="w-full font-orbitron text-[8px] sm:text-[9px] bg-system-bg-panel/40 border-system-accent/20 rounded-xl py-2.5 px-4 focus:border-system-accent transition-all"
+                  className="w-full font-orbitron text-[8px] sm:text-[9px] bg-system-bg-panel/40 border-system-accent/20 rounded-xl py-2.5 px-4 focus:border-system-accent/50 transition-all"
                 >
                   <option value="" disabled>ADD STAT AMPLIFICATION...</option>
                   {Object.values(StatKey).map(stat => (
@@ -774,17 +874,22 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
             </div>
 
             {/* Growth History */}
-            <div className="bg-system-bg-panel-solid/95 rounded-2xl p-5 sm:p-7 border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
-              <div className="flex items-center justify-between mb-5">
-                <div className="flex items-center gap-3">
-                  <Activity className="w-5 h-5 text-system-accent" />
-                  <h3 className="text-[10px] sm:text-xs font-orbitron text-system-text uppercase tracking-[0.2em] sm:tracking-[0.3em]">Growth History</h3>
+            <div className="space-y-4">
+              <div className="flex items-center justify-between border-b border-system-accent/20 pb-3">
+                <div className="flex items-center space-x-3">
+                  <div className="p-1.5 rounded-lg bg-system-accent/10 text-system-accent">
+                    <Activity className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-orbitron text-xs sm:text-sm uppercase tracking-[0.2em] text-system-text leading-none">Growth History</h3>
+                    <span className="text-[7px] sm:text-[8px] text-system-text-muted uppercase tracking-widest mt-0.5 block opacity-60">Timeline of skill level up stages</span>
+                  </div>
                 </div>
                 <button 
                   onClick={() => setExpandedGrowth(!expandedGrowth)}
-                  className="p-1.5 rounded-lg bg-system-accent/10 border border-system-accent/20 text-system-accent hover:bg-system-accent/20 transition-all"
+                  className="p-1.5 bg-system-accent/10 text-system-accent hover:bg-system-accent hover:text-system-bg-base rounded-lg transition-all"
                 >
-                  {expandedGrowth ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                  {expandedGrowth ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
                 </button>
               </div>
 
@@ -797,21 +902,23 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                     className="space-y-2.5 overflow-hidden"
                   >
                     {(!skill.growthHistory || skill.growthHistory.length === 0) ? (
-                      <div className="text-center py-6 text-[8px] text-system-text-muted italic uppercase tracking-[0.2em] border border-dashed border-system-accent/10 rounded-xl opacity-40">No historical data recorded</div>
+                      <div className="py-6 text-center border border-dashed border-system-accent/20 rounded-2xl bg-system-bg-panel/10">
+                        <p className="text-[8px] text-system-text-muted uppercase tracking-widest font-orbitron opacity-60">No historical data recorded</p>
+                      </div>
                     ) : (
                       skill.growthHistory.slice().reverse().map((entry, idx) => (
-                        <div key={idx} className="flex items-center justify-between p-3 bg-system-accent/5 rounded-xl border border-system-accent/10 group hover:border-system-accent/30 transition-all">
+                        <div key={idx} className="flex items-center justify-between p-3.5 bg-system-bg-panel/40 border border-system-accent/10 rounded-2xl hover:border-system-accent/30 transition-all backdrop-blur-md">
                           <div className="min-w-0">
-                            <div className="text-[7px] font-orbitron text-system-accent uppercase tracking-[0.1em] mb-0.5 truncate">Evolution Reached</div>
-                            <div className="text-base font-orbitron text-system-text">LV.{entry.level}</div>
+                            <div className="text-[7px] font-orbitron text-system-accent uppercase tracking-[0.1em] mb-0.5 truncate">Level Reached</div>
+                            <div className="text-sm font-orbitron font-black text-system-text">LV.{entry.level}</div>
                           </div>
                           <div className="text-right shrink-0">
                             <div className="text-[7px] font-orbitron text-system-text-muted uppercase tracking-[0.1em] mb-1">
                               {new Date(entry.timestamp).toLocaleDateString()}
                             </div>
-                            <div className="flex gap-1 justify-end flex-wrap max-w-[100px]">
+                            <div className="flex gap-1 justify-end flex-wrap max-w-[120px]">
                               {entry.statsGained.map((sg, sidx) => (
-                                <span key={sidx} className="px-1 py-0.5 rounded bg-emerald-500/10 text-[6px] font-orbitron text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">+{sg.points}{sg.stat[0].toUpperCase()}</span>
+                                <span key={sidx} className="px-1.5 py-0.5 rounded bg-emerald-500/10 text-[6px] font-orbitron text-emerald-400 border border-emerald-500/20 uppercase tracking-widest">+{sg.points}{sg.stat[0].toUpperCase()}</span>
                               ))}
                             </div>
                           </div>
@@ -822,20 +929,23 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 )}
               </AnimatePresence>
             </div>
-          </div>
 
-          {/* Growth Analysis Section */}
-          <div className="col-span-12 lg:col-span-7 space-y-6 sm:space-y-8">
-            <div className="bg-system-bg-panel-solid/95 rounded-3xl p-5 sm:p-8 border border-system-accent/10 backdrop-blur-2xl shadow-2xl">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-                <div className="flex items-center gap-3">
-                  <Activity className="w-5 h-5 text-system-accent" />
-                  <h3 className="text-xs sm:text-sm font-orbitron text-system-text uppercase tracking-[0.2em] sm:tracking-[0.3em]">Growth Analysis</h3>
+            {/* Growth Analysis Section */}
+            <div className="space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-system-accent/20 pb-3 gap-4">
+                <div className="flex items-center space-x-3">
+                  <div className="p-1.5 rounded-lg bg-system-accent/10 text-system-accent">
+                    <Activity className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-orbitron text-xs sm:text-sm uppercase tracking-[0.2em] text-system-text leading-none">Growth Analysis</h3>
+                    <span className="text-[7px] sm:text-[8px] text-system-text-muted uppercase tracking-widest mt-0.5 block opacity-60">Level progress metrics</span>
+                  </div>
                 </div>
-                <div className="flex gap-6">
+                <div className="flex gap-6 shrink-0">
                   <div className="text-right">
                     <div className="text-[7px] font-orbitron text-system-accent uppercase tracking-[0.2em] mb-0.5 opacity-60">Efficiency</div>
-                    <div className="text-base sm:text-lg font-orbitron text-system-text">
+                    <div className="text-sm sm:text-base font-orbitron font-bold text-system-text">
                       {(() => {
                         let total = 0;
                         if (skill.totalPointsEarned) {
@@ -848,8 +958,8 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-[7px] font-orbitron text-system-accent uppercase tracking-[0.2em] mb-0.5 opacity-60">Last Evolution</div>
-                    <div className="text-base sm:text-lg font-orbitron text-system-text">
+                    <div className="text-[7px] font-orbitron text-system-accent uppercase tracking-[0.2em] mb-0.5 opacity-60">Last Level Up</div>
+                    <div className="text-sm sm:text-base font-orbitron font-bold text-system-text">
                       {skill.growthHistory?.length 
                         ? new Date(skill.growthHistory[skill.growthHistory.length - 1].timestamp).toLocaleDateString()
                         : 'N/A'}
@@ -858,7 +968,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 </div>
               </div>
 
-              <div className="h-32 sm:h-48 w-full bg-system-bg-panel-solid/95 rounded-xl p-2 border border-system-accent/5 shadow-inner">
+              <div className="h-32 sm:h-48 w-full bg-system-bg-panel/40 rounded-2xl p-2 border border-system-accent/10 shadow-inner backdrop-blur-md">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={skill.growthHistory || []}>
                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(var(--system-accent-rgb), 0.05)" vertical={false} />
@@ -879,87 +989,33 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 </ResponsiveContainer>
               </div>
             </div>
-          </div>
 
-          {/* Synergy Storage */}
-          <div className="col-span-12 lg:col-span-5">
-            <div className="bg-system-bg-panel/40 rounded-3xl p-5 sm:p-8 border border-system-accent/10 backdrop-blur-2xl shadow-2xl h-full">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-3">
-                  <Zap className="w-4 h-4 text-system-accent" />
-                  <h3 className="text-[10px] sm:text-xs font-orbitron text-system-text uppercase tracking-[0.2em]">Synergy Storage</h3>
-                </div>
-                <button 
-                  onClick={() => setShowAddEffectForm(true)}
-                  className="p-1.5 rounded-lg bg-system-accent/10 border border-system-accent/20 text-system-accent hover:bg-system-accent/20 transition-all"
+            {/* Neural Maintenance - Compact Purge Button */}
+            <div className="flex justify-end pt-2">
+              {!showDeleteConfirm ? (
+                <button
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="w-fit px-5 py-2.5 flex items-center justify-center gap-2 rounded-xl border border-red-500/40 text-red-500 hover:text-red-400 hover:border-red-500/60 hover:bg-red-500/10 hover:shadow-[0_0_12px_rgba(239,68,68,0.15)] transition-all duration-300 font-orbitron text-[9px] uppercase tracking-[0.2em] font-bold group cursor-pointer"
                 >
-                  <Plus size={14} />
+                  <Trash2 className="w-3.5 h-3.5 group-hover:scale-110 transition-transform text-red-500" />
+                  <span>Purge Skill</span>
                 </button>
-              </div>
-
-              <div className="space-y-3">
-                {(!skill.effects || skill.effects.length === 0) ? (
-                  <div className="text-center py-8 border border-dashed border-system-accent/10 rounded-xl opacity-40">
-                    <p className="text-[8px] text-system-text-muted uppercase tracking-[0.2em] font-orbitron italic">No Synergies</p>
-                  </div>
-                ) : (
-                  skill.effects.map((eff, idx) => (
-                    <div 
-                      key={idx}
-                      onClick={() => setEditingEffectIndex({ type: 'skill', index: idx, sourceId: skill.id })}
-                      className="group p-4 bg-system-bg-panel/40 border border-system-accent/10 rounded-xl hover:border-system-accent/40 transition-all cursor-pointer relative overflow-hidden"
-                    >
-                      <div className="absolute top-0 left-0 w-1 h-full bg-system-accent opacity-40 group-hover:opacity-100 transition-opacity" />
-                      <div className="flex justify-between items-start mb-2">
-                        <h4 className="text-[10px] font-orbitron text-system-accent uppercase tracking-widest truncate mr-2">{eff.name}</h4>
-                        <Badge variant={eff.type === 'active' ? 'accent' : 'outline'} className="text-[6px] font-orbitron px-1.5 py-0.5 shrink-0">
-                          {eff.type === 'active' ? 'ACT' : 'PAS'}
-                        </Badge>
-                      </div>
-                      <p className="text-[9px] text-system-text-muted line-clamp-1 font-light italic">{eff.description}</p>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          </div>
-
-          {/* Neural Maintenance */}
-          <div className="col-span-12 mt-12 pt-10 border-t border-red-500/10">
-            <div className="space-y-8">
-              <div className="text-center max-w-md mx-auto">
-                <h3 className="text-system-text font-orbitron text-sm sm:text-base uppercase tracking-[0.3em] mb-2 sm:mb-3">Neural Maintenance</h3>
-                <p className="text-[9px] sm:text-[11px] text-system-text-muted uppercase tracking-[0.2em] opacity-60 leading-relaxed">
-                  Critical system actions and data management. Purging skill data will permanently erase all neural pathways and mastery history. This action is irreversible.
-                </p>
-              </div>
-
-              <div className="w-full">
-                {!showDeleteConfirm ? (
+              ) : (
+                <div className="flex items-center gap-2 w-48 animate-in fade-in zoom-in-95 duration-200">
                   <button
-                    onClick={() => setShowDeleteConfirm(true)}
-                    className="w-full flex items-center justify-center gap-3 py-5 sm:py-6 rounded-2xl sm:rounded-3xl border border-red-500/30 text-red-500/70 hover:text-red-500 hover:border-red-500 hover:bg-red-500/5 transition-all duration-500 font-orbitron text-[10px] sm:text-[13px] uppercase tracking-[0.4em] font-black group shadow-[0_0_30px_rgba(239,68,68,0.02)]"
+                    onClick={deleteSkill}
+                    className="flex-1 py-1.5 bg-red-500 hover:bg-red-600 text-white rounded-xl transition-all font-orbitron text-[9px] uppercase tracking-[0.2em] font-bold cursor-pointer"
                   >
-                    <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 group-hover:scale-110 transition-transform" />
-                    <span>PURGE SKILL DATA</span>
+                    Confirm
                   </button>
-                ) : (
-                  <div className="flex flex-col sm:flex-row items-center gap-4 w-full animate-in fade-in zoom-in-95 duration-300">
-                    <button
-                      onClick={deleteSkill}
-                      className="flex-1 w-full py-5 sm:py-6 bg-red-500 text-white rounded-2xl sm:rounded-3xl hover:bg-red-600 transition-all font-orbitron text-[10px] sm:text-[13px] uppercase tracking-[0.4em] font-black shadow-[0_0_30px_rgba(239,68,68,0.3)]"
-                    >
-                      CONFIRM PURGE
-                    </button>
-                    <button
-                      onClick={() => setShowDeleteConfirm(false)}
-                      className="flex-1 w-full py-5 sm:py-6 bg-system-bg-panel border border-system-accent/20 text-system-text-muted rounded-2xl sm:rounded-3xl hover:text-system-text transition-all font-orbitron text-[10px] sm:text-[13px] uppercase tracking-[0.4em]"
-                    >
-                      ABORT
-                    </button>
-                  </div>
-                )}
-              </div>
+                  <button
+                    onClick={() => setShowDeleteConfirm(false)}
+                    className="flex-1 py-1.5 bg-system-bg-panel border border-system-accent/20 text-system-text-muted hover:text-system-text rounded-xl transition-all font-orbitron text-[9px] uppercase tracking-[0.2em] cursor-pointer"
+                  >
+                    Abort
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -992,6 +1048,22 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
   
   const [activeTab, setActiveTab] = useState<'mental' | 'physical'>('mental');
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const mainContent = document.getElementById('main-content');
+    if (selectedSkillId) {
+      document.body.style.overflow = 'hidden';
+      if (mainContent) mainContent.style.overflowY = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+      if (mainContent) mainContent.style.overflowY = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = '';
+      if (mainContent) mainContent.style.overflowY = 'auto';
+    };
+  }, [selectedSkillId]);
+
   const [showAddForm, setShowAddForm] = useState(false);
   const [newName, setNewName] = useState('');
   const [newDesc, setNewDesc] = useState('');
@@ -1005,14 +1077,6 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
   const [editingFolderName, setEditingFolderName] = useState('');
   const [folderToDelete, setFolderToDelete] = useState<Folder | null>(null);
   const [isAnalyticsCollapsed, setIsAnalyticsCollapsed] = useState(true);
-  const [showPurgeConfirm, setShowPurgeConfirm] = useState(false);
-
-  const confirmPurgeAllSkills = () => {
-    setSkills([]);
-    setIsDirty(true);
-    setShowPurgeConfirm(false);
-    playSuccess();
-  };
 
   const filteredSkillIds = usePlayerStore(useShallow(state => {
     return state.skills.filter(s => 
@@ -1118,7 +1182,7 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
             <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6 rotate-180" />
           </button>
           <div className="min-w-0">
-            <h1 className="text-2xl lg:text-4xl font-orbitron system-glow text-system-accent uppercase tracking-tighter truncate">Neural Skill Tree</h1>
+            <h1 className="text-2xl lg:text-4xl font-orbitron system-glow text-system-accent uppercase tracking-tighter truncate">Skill Tree</h1>
             <p className="text-[7px] lg:text-[10px] text-system-text-muted uppercase tracking-[0.1em] lg:tracking-[0.3em] font-orbitron opacity-70 leading-tight break-words">
               Develop your mental and physical capabilities.
             </p>
@@ -1160,13 +1224,29 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
             <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-system-accent/40" />
             <input
               type="text"
-              placeholder="SEARCH NEURAL DATABASE..."
+              placeholder="SEARCH DATABASE..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-system-bg-panel/40 border border-system-accent/20 rounded-xl pl-11 pr-4 py-2.5 text-[10px] font-orbitron text-system-text placeholder:text-system-text-muted/40 focus:outline-none focus:border-system-accent transition-all uppercase tracking-widest"
             />
           </div>
-          <div className="flex bg-system-bg-panel/40 rounded-xl border border-system-accent/20 p-1">
+          
+          <button
+            id="skills-analytics-toggle"
+            onClick={() => setIsAnalyticsCollapsed(!isAnalyticsCollapsed)}
+            className={`px-3 sm:px-4 py-2.5 rounded-xl border transition-all duration-300 hover-glitch flex items-center justify-center gap-2 font-orbitron text-[9px] uppercase tracking-widest h-[42px] shrink-0 cursor-pointer ${
+              !isAnalyticsCollapsed
+                ? 'bg-system-accent text-system-bg-base border-system-accent shadow-[0_0_15px_rgba(0,255,157,0.2)] font-bold'
+                : 'bg-system-bg-panel/40 border-system-accent/20 text-system-accent hover:bg-system-accent/10 hover:border-system-accent/40'
+            }`}
+            title="Skill Analytics Report"
+          >
+            <Activity className="w-4 h-4 shrink-0" />
+            <span className="hidden sm:inline">Skill Analytics Report</span>
+            <span className="inline sm:hidden">Analytics</span>
+          </button>
+
+          <div id="skills-folder-btn" className="flex bg-system-bg-panel/40 rounded-xl border border-system-accent/20 p-1">
             <button
               onClick={() => setViewMode('list')}
               className={`p-2 rounded-lg transition-all hover-glitch ${viewMode === 'list' ? 'bg-system-accent text-system-bg-base' : 'text-system-text-muted hover:text-system-accent'}`}
@@ -1175,7 +1255,6 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
               <LayoutList className="w-4 h-4" />
             </button>
             <button
-              id="skills-folder-btn"
               onClick={() => setViewMode('folder')}
               className={`p-2 rounded-lg transition-all hover-glitch ${viewMode === 'folder' ? 'bg-system-accent text-system-bg-base' : 'text-system-text-muted hover:text-system-accent'}`}
               title="Folder View"
@@ -1189,39 +1268,21 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
       {/* Main Content Area */}
       <div className="space-y-6">
         {/* Analytics Section */}
-        <div className="bg-system-bg-panel-solid/90 rounded-3xl border border-system-accent/10 overflow-hidden backdrop-blur-md">
-          <button 
-            id="skills-analytics"
-            onClick={() => setIsAnalyticsCollapsed(!isAnalyticsCollapsed)}
-            className="w-full p-4 sm:p-5 flex items-center justify-between hover:bg-system-accent/5 transition-all group hover-glitch"
-          >
-            <div className="flex items-center space-x-3">
-              <div className="p-1.5 rounded-lg bg-system-accent/10 text-system-accent group-hover:scale-110 transition-transform">
-                <Activity className="w-4 h-4" />
+        <AnimatePresence>
+          {!isAnalyticsCollapsed && (
+            <motion.div
+              initial={{ height: 0, opacity: 0, y: -10 }}
+              animate={{ height: 'auto', opacity: 1, y: 0 }}
+              exit={{ height: 0, opacity: 0, y: -10 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="overflow-hidden bg-system-bg-panel-solid/82 rounded-3xl border border-system-accent/15 backdrop-blur-md shadow-2xl"
+            >
+              <div className="p-5 sm:p-6">
+                <SkillsAnalytics />
               </div>
-              <div className="text-left">
-                <span className="block font-orbitron text-[10px] sm:text-xs uppercase tracking-[0.2em] text-system-text">Neural Analytics Report</span>
-                <span className="block text-[7px] text-system-text-muted uppercase tracking-widest mt-0.5">Review training distribution and focus areas</span>
-              </div>
-            </div>
-            {isAnalyticsCollapsed ? <ChevronDown className="w-4 h-4 text-system-accent/50" /> : <ChevronUp className="w-4 h-4 text-system-accent" />}
-          </button>
-          
-          <AnimatePresence>
-            {!isAnalyticsCollapsed && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="p-5 sm:p-6 border-t border-system-accent/10">
-                  <SkillsAnalytics />
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* Skill Grid */}
         <div className="space-y-6">
@@ -1310,15 +1371,28 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
       {/* Detail Modal */}
       <AnimatePresence>
         {selectedSkillId && (
-          <div className="fixed inset-0 bg-system-bg-base/80 backdrop-blur-xl flex items-center justify-center z-[60] p-2 sm:p-4">
+          <div className="fixed inset-0 z-[100] overflow-y-auto custom-scrollbar">
+            {/* Backdrop */}
             <motion.div 
-              initial={{ scale: 0.9, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.9, opacity: 0, y: 20 }}
-              className="bg-system-bg-panel border border-system-accent/30 rounded-[1.5rem] sm:rounded-[2.5rem] p-3 sm:p-8 max-w-6xl w-full h-[94vh] sm:h-[90vh] max-h-[94vh] sm:max-h-[90vh] flex flex-col shadow-[0_0_100px_rgba(0,255,157,0.1)] relative overflow-hidden"
-            >
-              <SkillDetail skillId={selectedSkillId} onClose={() => setSelectedSkillId(null)} />
-            </motion.div>
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedSkillId(null)}
+              className="fixed inset-0 bg-system-bg-base/80 backdrop-blur-xl pointer-events-auto"
+            />
+            {/* Modal Scroll Container Wrapper */}
+            <div className="relative min-h-screen flex flex-col items-center justify-start px-2 sm:px-4 md:px-6 lg:px-8 pt-0.5 sm:pt-1 lg:pt-1 pb-16 sm:pb-24 lg:pb-36 pointer-events-none">
+              <motion.div 
+                initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                animate={{ scale: 1, opacity: 1, y: 0 }}
+                exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                className="relative w-full max-w-6xl bg-system-bg-panel border border-system-accent/30 rounded-2xl sm:rounded-[3rem] shadow-[0_0_100px_rgba(0,255,157,0.1)] p-4 sm:py-8 sm:px-10 backdrop-blur-3xl pointer-events-auto"
+              >
+                <SkillDetail skillId={selectedSkillId} onClose={() => setSelectedSkillId(null)} />
+              </motion.div>
+              {/* Solid bottom spacer to prevent clipping on tall layouts */}
+              <div className="h-24 sm:h-36 lg:h-48 w-full shrink-0 pointer-events-none" />
+            </div>
           </div>
         )}
       </AnimatePresence>
@@ -1328,7 +1402,7 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
         <div className="fixed inset-0 bg-system-bg-base/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
           <div className="bg-system-bg-panel border border-system-accent/30 rounded-3xl p-8 max-w-md w-full animate-in zoom-in-95 duration-300 shadow-[0_0_50px_rgba(0,255,157,0.1)]">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Initialize Neural Skill</h2>
+              <h2 className="text-2xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Initialize Skill</h2>
               <button onClick={() => setShowAddForm(false)} className="p-2 hover:bg-system-accent/10 rounded-xl transition-all text-system-text-muted hover:text-system-accent hover-glitch">
                 <X className="w-5 h-5" />
               </button>
@@ -1370,7 +1444,7 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
         <div className="fixed inset-0 bg-system-bg-base/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
           <div className="bg-system-bg-panel border border-system-accent/30 rounded-3xl p-8 max-w-md w-full animate-in zoom-in-95 duration-300 shadow-[0_0_50px_rgba(0,255,157,0.1)]">
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Create Neural Folder</h2>
+              <h2 className="text-2xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Create Folder</h2>
               <button onClick={() => setShowFolderForm(false)} className="p-2 hover:bg-system-accent/10 rounded-xl transition-all text-system-text-muted hover:text-system-accent hover-glitch">
                 <X className="w-5 h-5" />
               </button>
@@ -1425,45 +1499,7 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
         </div>
       )}
 
-      {showPurgeConfirm && (
-        <div className="fixed inset-0 bg-system-bg-base/95 backdrop-blur-xl flex items-center justify-center z-[100] p-4">
-          <div className="bg-system-bg-panel border border-red-500/50 rounded-3xl p-8 max-w-md w-full animate-in zoom-in-95 duration-300 shadow-[0_0_100px_rgba(239,68,68,0.2)]">
-            <div className="flex items-center gap-4 mb-6 text-red-400">
-              <AlertTriangle className="w-8 h-8" />
-              <h2 className="text-2xl font-orbitron uppercase tracking-tighter">Critical Purge</h2>
-            </div>
-            <p className="text-sm text-system-text-muted mb-8 leading-relaxed">
-              You are about to initiate a <span className="text-red-400 font-bold uppercase">Full Neural Purge</span>. 
-              This will permanently delete all skill data and progress. This action cannot be reversed.
-            </p>
-            <div className="flex flex-col gap-3">
-              <button
-                onClick={confirmPurgeAllSkills}
-                className="w-full py-4 bg-red-500 text-white rounded-xl transition-all font-orbitron text-xs uppercase tracking-[0.2em] font-black shadow-[0_0_30px_rgba(239,68,68,0.3)] hover:brightness-110"
-              >
-                Confirm Full Purge
-              </button>
-              <button
-                onClick={() => setShowPurgeConfirm(false)}
-                className="w-full py-4 bg-system-bg-panel border border-system-accent/20 text-system-text-muted hover:text-system-text rounded-xl transition-all font-orbitron text-xs uppercase tracking-widest"
-              >
-                Abort Protocol
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
-      <div className="mt-12 pt-12 border-t border-system-accent/10">
-        <button 
-          id="skills-purge-btn"
-          onClick={() => setShowPurgeConfirm(true)}
-          className="w-full py-6 bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 rounded-2xl text-red-400 font-orbitron text-xs uppercase tracking-[0.4em] transition-all hover:shadow-[0_0_30px_rgba(239,68,68,0.15)] flex items-center justify-center gap-3 group"
-        >
-          <Trash2 className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-          Purge Skill Data
-        </button>
-      </div>
     </div>
   );
 });

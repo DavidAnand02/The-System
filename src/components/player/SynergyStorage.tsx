@@ -91,10 +91,10 @@ const SynergyStorage: React.FC<SynergyStorageProps> = ({
                   <Button 
                     variant="ghost"
                     size="icon"
-                    className="h-8 w-8 sm:h-7 sm:w-7"
+                    className="h-7 w-7 md:h-9 md:w-9"
                     onClick={() => setEditingEffectIndex({ type: eff.origin, index: eff.index, sourceId: eff.sourceId })}
                   >
-                    <Settings className="w-4 h-4 sm:w-3.5 sm:h-3.5" />
+                    <Settings className="w-3.5 h-3.5 md:w-4.5 md:h-4.5 transition-transform duration-300 group-hover:rotate-45" />
                   </Button>
                 </div>
               </div>

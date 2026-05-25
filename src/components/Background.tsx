@@ -103,7 +103,10 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
         this.maxHistory = 6; // Number of trail segments
       }
 
-      update(w: number, h: number, mouse: any, nodes: MagneticNode[], ripples: Ripple[]) {
+      update(w: number, h: number, mouse: any, nodes: MagneticNode[], ripples: Ripple[], currentScrollY: number) {
+        const scrollFactor = 0.15 + this.depth * 0.45;
+        const effY = this.y - currentScrollY * scrollFactor;
+
         // Store history for trails
         this.history.unshift({ x: this.x, y: this.y });
         if (this.history.length > this.maxHistory) this.history.pop();
@@ -119,7 +122,8 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
         // --- RIPPLE REACTION (Shockwaves) ---
         ripples.forEach(r => {
           const rdx = this.x - r.x;
-          const rdy = this.y - r.y;
+          // Calculate relative to the effective y position
+          const rdy = effY - r.y;
           const rdist = Math.sqrt(rdx * rdx + rdy * rdy);
           const diff = Math.abs(rdist - r.radius);
           if (diff < 100) {
@@ -132,7 +136,8 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
         // --- MAGNETIC NODES & SWIRLS ---
         nodes.forEach(node => {
           const dx = node.x - this.x;
-          const dy = node.y - this.y;
+          // Calculate relative to effective y position
+          const dy = node.y - effY;
           const distSq = dx * dx + dy * dy;
           const dist = Math.sqrt(distSq);
           if (dist < 350) {
@@ -170,11 +175,11 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
         const shieldY = (h - shieldHeight) / 2;
 
         if (this.x > shieldX - 40 && this.x < shieldX + shieldWidth + 40 &&
-            this.y > shieldY - 40 && this.y < shieldY + shieldHeight + 40) {
+            effY > shieldY - 40 && effY < shieldY + shieldHeight + 40) {
           const centerX = w / 2;
           const centerY = h / 2;
           const dx = this.x - centerX;
-          const dy = this.y - centerY;
+          const dy = effY - centerY;
           const dist = Math.sqrt(dx * dx + dy * dy);
           const force = 0.5;
           this.x += (dx / dist) * force;
@@ -183,7 +188,7 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
 
         // Mouse avoidance/attraction
         const mdx = mouse.x - this.x;
-        const mdy = mouse.y - this.y;
+        const mdy = mouse.y - effY;
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
         if (mdist < mouse.radius) {
           const mforce = (mouse.radius - mdist) / mouse.radius;
@@ -191,17 +196,31 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
           this.y -= (mdy / mdist) * mforce * 4;
         }
 
-        // Screen wrap
+        // Screen wrap (incorporating active scroll bounds)
         const buffer = 100;
         if (this.x > w + buffer) this.x = -buffer;
         else if (this.x < -buffer) this.x = w + buffer;
-        if (this.y > h + buffer) this.y = -buffer;
-        else if (this.y < -buffer) this.y = h + buffer;
+
+        // Check if effective (rendered) Y goes out of viewport bounds
+        if (effY > h + buffer) {
+          // Warp up to top of screen
+          const shift = h + 2 * buffer;
+          this.y -= shift;
+          this.history = this.history.map(pt => ({ x: pt.x, y: pt.y - shift }));
+        } else if (effY < -buffer) {
+          // Warp down to bottom of screen
+          const shift = h + 2 * buffer;
+          this.y += shift;
+          this.history = this.history.map(pt => ({ x: pt.x, y: pt.y + shift }));
+        }
       }
 
-      draw(context: CanvasRenderingContext2D, mouse: any) {
+      draw(context: CanvasRenderingContext2D, mouse: any, currentScrollY: number) {
+        const scrollFactor = 0.15 + this.depth * 0.45;
+        const effY = this.y - currentScrollY * scrollFactor;
+
         const mdx = mouse.x - this.x;
-        const mdy = mouse.y - this.y;
+        const mdy = mouse.y - effY;
         const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
         const proximity = mdist < mouse.radius ? (1 - mdist / mouse.radius) : 0;
         
@@ -214,22 +233,24 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
         // Draw Trail from history (with wrap detection)
         if (this.history.length > 1) {
           context.beginPath();
-          context.moveTo(this.x, this.y);
+          // Start trail drawing from effective current coordinates
+          context.moveTo(this.x, effY);
           let lastX = this.x;
-          let lastY = this.y;
+          let lastY = effY;
 
           for (let i = 0; i < this.history.length; i++) {
             const p = this.history[i];
+            const pEffY = p.y - currentScrollY * scrollFactor;
             
             // If the distance is too large, it wrapped around the screen
             // Stop drawing this trail segment to prevent "energy beams"
             const dx = Math.abs(p.x - lastX);
-            const dy = Math.abs(p.y - lastY);
+            const dy = Math.abs(pEffY - lastY);
             if (dx > 200 || dy > 200) break; 
 
-            context.lineTo(p.x, p.y);
+            context.lineTo(p.x, pEffY);
             lastX = p.x;
-            lastY = p.y;
+            lastY = pEffY;
           }
           context.strokeStyle = `hsla(${hue}, 80%, 60%, ${currentOpacity * 0.3})`;
           context.lineWidth = this.size * 0.8;
@@ -237,19 +258,19 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
           context.stroke();
         }
 
-        const grad = context.createRadialGradient(this.x, this.y, 0, this.x, this.y, glowRadius);
+        const grad = context.createRadialGradient(this.x, effY, 0, this.x, effY, glowRadius);
         grad.addColorStop(0, `hsla(${hue}, 90%, 80%, ${currentOpacity})`);
         grad.addColorStop(0.2, `hsla(${hue}, 80%, 60%, ${currentOpacity * 0.5})`);
         grad.addColorStop(1, `hsla(${hue}, 80%, 50%, 0)`);
 
         context.beginPath();
-        context.arc(this.x, this.y, glowRadius, 0, Math.PI * 2);
+        context.arc(this.x, effY, glowRadius, 0, Math.PI * 2);
         context.fillStyle = grad;
         context.fill();
 
         // High intensity core
         context.beginPath();
-        context.arc(this.x, this.y, this.size * 0.5, 0, Math.PI * 2);
+        context.arc(this.x, effY, this.size * 0.5, 0, Math.PI * 2);
         context.fillStyle = '#ffffff';
         context.fill();
         context.restore();
@@ -284,6 +305,9 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
       ctx.fillStyle = bgColorRef.current; 
       ctx.fillRect(0, 0, width, height);
       
+      // Get current scroll position
+      const currentScrollY = window.pageYOffset || window.scrollY || 0;
+      
       // Adjusted globalHue oscillation to target the base theme hue
       globalHue = baseHueRef.current + Math.sin(Date.now() * 0.00015) * 20;
 
@@ -306,8 +330,8 @@ const Background: React.FC<BackgroundProps> = React.memo(({ themeColor }) => {
       });
 
       particles.forEach(p => {
-        p.update(width, height, mouseRef.current, nodes, ripplesRef.current);
-        p.draw(ctx, mouseRef.current);
+        p.update(width, height, mouseRef.current, nodes, ripplesRef.current, currentScrollY);
+        p.draw(ctx, mouseRef.current, currentScrollY);
       });
 
       requestRef.current = requestAnimationFrame(animate);
