@@ -106,28 +106,6 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({
           </div>
         </section>
 
-        {/* ACTIVE QUESTS PANEL */}
-        <section className="min-w-0 self-start">
-          <div id="dashboard-quests" className="flex flex-col gap-4 sm:gap-6 w-full relative">
-            <PanelHeader title="Active Quests" icon={<ICONS.Plus className="w-4 h-4" />} />
-            <div className="flex flex-col gap-3 sm:gap-4">
-              {activeQuests.length > 0 ? (
-                activeQuests.map(quest => (
-                  <QuestMiniCard key={quest.id} quest={quest} onClick={() => navigateTo('quests')} />
-                ))
-              ) : (
-                <EmptyState message="No active quests. Visit the quest board." />
-              )}
-            </div>
-            <button 
-              onClick={() => navigateTo('quests')}
-              className="w-full py-3 text-[10px] uppercase tracking-[0.3em] text-system-accent/50 hover:text-system-accent transition-all duration-300 font-bold border border-dashed border-system-accent/10 rounded-xl hover:border-system-accent/40 hover:bg-system-accent/5 hover-glitch"
-            >
-              View All Quests
-            </button>
-          </div>
-        </section>
-
         {/* SKILLS PANEL */}
         <section className="min-w-0 self-start">
           <div id="dashboard-skills" className="flex flex-col gap-4 sm:gap-6 w-full relative">
@@ -169,6 +147,28 @@ const Dashboard: React.FC<DashboardProps> = React.memo(({
                 Career Class Board
               </button>
             </div>
+          </div>
+        </section>
+
+        {/* ACTIVE QUESTS PANEL */}
+        <section className="min-w-0 self-start">
+          <div id="dashboard-quests" className="flex flex-col gap-4 sm:gap-6 w-full relative">
+            <PanelHeader title="Active Quests" icon={<ICONS.Plus className="w-4 h-4" />} />
+            <div className="flex flex-col gap-3 sm:gap-4">
+              {activeQuests.length > 0 ? (
+                activeQuests.map(quest => (
+                  <QuestMiniCard key={quest.id} quest={quest} onClick={() => navigateTo('quests')} />
+                ))
+              ) : (
+                <EmptyState message="No active quests. Visit the quest board." />
+              )}
+            </div>
+            <button 
+              onClick={() => navigateTo('quests')}
+              className="w-full py-3 text-[10px] uppercase tracking-[0.3em] text-system-accent/50 hover:text-system-accent transition-all duration-300 font-bold border border-dashed border-system-accent/10 rounded-xl hover:border-system-accent/40 hover:bg-system-accent/5 hover-glitch"
+            >
+              View All Quests
+            </button>
           </div>
         </section>
       </div>

@@ -3,6 +3,7 @@ import { ChevronDown, Check } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface SelectProps {
+  id?: string;
   label?: string;
   error?: string;
   options?: { value: string; label: string }[];
@@ -14,6 +15,7 @@ interface SelectProps {
 }
 
 export const Select: React.FC<SelectProps> = ({ 
+  id,
   label, 
   error, 
   options = [], 
@@ -65,6 +67,7 @@ export const Select: React.FC<SelectProps> = ({
       )}
       <div className={`relative ${isOpen ? 'z-[60]' : ''}`}>
         <button
+          id={id}
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           className={`

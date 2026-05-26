@@ -9,6 +9,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useSound } from '../../contexts/SoundContext';
 
 interface SynergyModalProps {
+  id?: string;
   isOpen: boolean;
   onClose: () => void;
   title: string;
@@ -17,6 +18,7 @@ interface SynergyModalProps {
 }
 
 export const SynergyModal: React.FC<SynergyModalProps> = ({
+  id,
   isOpen,
   onClose,
   title,
@@ -77,6 +79,7 @@ export const SynergyModal: React.FC<SynergyModalProps> = ({
 
   return (
     <Modal
+      id={id}
       isOpen={isOpen}
       onClose={onClose}
       title={title}

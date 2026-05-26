@@ -17,7 +17,8 @@ import {
   Plus,
   Shield,
   Star,
-  Settings
+  Settings,
+  Folder
 } from 'lucide-react';
 
 import { usePlayerStore } from '../store/usePlayerStore';
@@ -66,7 +67,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
   const steps: Step[] = useMemo(() => [
     {
       title: "Welcome to the System",
-      content: "Greetings, Player. You have been granted access to the Neural Interface. This walkthrough will guide you through the core protocols of your evolution.",
+      content: "Welcome, Player. This setup guide outlines the key features of your tracking interface. Let's walk through the main tabs and views.",
       targetId: "dashboard-header",
       position: 'bottom',
       page: 'landing',
@@ -75,7 +76,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     // DASHBOARD
     {
       title: "The Dashboard",
-      content: "This is your central command. From here, you can access all system modules: Status, Skills, Quests, Jobs, and the Chronicle.",
+      content: "Your main landing panel. Use the navigation buttons to toggle views: Status, Skills, Quests, Jobs, and the Timelog.",
       targetId: "dashboard-nav",
       position: 'bottom',
       page: 'landing',
@@ -83,7 +84,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Ability Scores",
-      content: "Your core attributes are cataloged here. These scores represent physical and mental capacities, upgraded through direct real-world training and logging hours.",
+      content: "Tracks your primary attributes. These indicators represent physical and mental stats, earned by logging skill hours and completing daily quests.",
       targetId: "dashboard-stats",
       position: 'bottom',
       page: 'landing',
@@ -91,7 +92,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Top Skills",
-      content: "Your highest-level skills are highlighted here. Focus on these to maximize your core attributes.",
+      content: "Displays your highest-level skills. Logging hours here is the fastest way to increase your core attributes.",
       targetId: "dashboard-skills",
       position: 'bottom',
       page: 'landing',
@@ -99,7 +100,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Active Classes",
-      content: "Monitor your active career and life roles. Levels earned in classes translate directly to permanent stat increases and synergistic effects.",
+      content: "Displays your equipped jobs and life roles. Practice hours count toward job levels, which grant permanent stat points.",
       targetId: "dashboard-jobs",
       position: 'bottom',
       page: 'landing',
@@ -107,15 +108,15 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Active Directives",
-      content: "Your most pressing quests are displayed here. Complete them to earn stat points and maintain your momentum.",
+      content: "Prioritized list of your current quests. Complete them regularly to build stats and maintain your daily streak.",
       targetId: "dashboard-quests",
       position: 'bottom',
       page: 'landing',
       icon: <Target className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "System Notification",
-      content: "The system provides real-time advice and insights here. Pay attention to these directives to optimize your growth path.",
+      title: "System Advice",
+      content: "Live suggestions and status tips. Check this panel to optimize your current habits and leveling plan.",
       targetId: "dashboard-advice",
       position: 'bottom',
       page: 'landing',
@@ -123,7 +124,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Status Protocol",
-      content: "This is your core identity matrix. Here you can monitor your rank, level, and overall system progression.",
+      content: "Your profile center. Switch tabs here to audit your general rank, active level, and global milestones.",
       targetId: "nav-status",
       position: 'top',
       page: 'landing',
@@ -131,8 +132,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     // STATUS PAGE
     {
-      title: "Neural Rank",
-      content: "Your Rank is a visual representation of your total mastery. Higher ranks unlock advanced system features.",
+      title: "System Rank",
+      content: "Your Rank shows your absolute milestone level. Higher ranks are unlocked as you increase your overall stats.",
       targetId: "status-rank-card",
       position: 'right',
       page: 'status',
@@ -140,7 +141,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Level Projection",
-      content: "Monitor your current level and experience progress. Use the simulation slider to project your future growth.",
+      content: "Monitor your current level and experience bar. Drag the simulation slider to calculate potential level increases.",
       targetId: "status-level-panel",
       position: 'left',
       page: 'status',
@@ -148,15 +149,15 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Equipped Matrix",
-      content: "Manage your active Jobs, Titles, and Beliefs. These define your current 'Class' and provide active bonuses.",
+      content: "Assign your active classes, titles, and beliefs. These parameters modify your passive stat gains.",
       targetId: "status-equipped",
       position: 'right',
       page: 'status',
       icon: <Brain className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Attribute Matrix",
-      content: "The radar chart visualizes your stat distribution. Balance your attributes to optimize your systemic synergy.",
+      title: "Attribute Balance",
+      content: "A radar chart showing your attribute layout. Use it to scan for weak spots in your routine.",
       targetId: "status-radar",
       position: 'left',
       page: 'status',
@@ -164,7 +165,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "System Identity",
-      content: "Customize your designation and monitor your active title. Titles provide significant stat boosts and unique effects.",
+      content: "Rename your profile and select an active Title. Equipped Titles provide target stat bonuses.",
       targetId: "status-username-input",
       position: 'bottom',
       page: 'status',
@@ -172,15 +173,15 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Archive System",
-      content: "Access your collection of unlocked Titles and Beliefs. You can search and manage your historical achievements here.",
+      content: "Your library of unlocked Achievements. Browse and swap in your unlocked Titles or Mindset presets.",
       targetId: "status-archive-system",
       position: 'bottom',
       page: 'status',
       icon: <Shield className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Synergy Storage",
-      content: "Review all active and passive effects currently influencing your system. Synergies are the key to peak performance.",
+      title: "Active Passives",
+      content: "Audit all permanent traits currently applied to your player file. Passive traits represent long-term habits.",
       targetId: "status-synergy-storage",
       position: 'bottom',
       page: 'status',
@@ -189,7 +190,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     // SKILLS PAGE
     {
       title: "Skill Repository",
-      content: "Skills are the building blocks of your power. Log hours into skills to gain experience and increase your core stats.",
+      content: "Skills are your focused sub-disciplines. Logging practice hours triggers level-ups and yields stat points.",
       targetId: "nav-skills",
       position: 'top',
       page: 'landing',
@@ -197,31 +198,39 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Skill List",
-      content: "Here are your active skills. Click on any skill to view its details, log hours, and manage its stat rewards.",
+      content: "Shows all active skills. Click any skill to configure details, add logs, or change its attribute rewards.",
       targetId: "skills-list",
       position: 'right',
       page: 'skills',
       icon: <Activity className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Adding New Skills",
-      content: "Use the '+' button to initialize a new skill. Define its type and the stats it should reward upon leveling up.",
+      title: "Add New Skill",
+      content: "Press '+' to register a new skill. Define its category and select which stat gains points when the skill levels up.",
       targetId: "skills-add-btn",
       position: 'left',
       page: 'skills',
       icon: <Plus className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Folders & Organization",
-      content: "Organize your skills into folders to keep your interface clean. You can toggle between list and folder views here.",
+      title: "Folders & Filters",
+      content: "Organize skills using folders. Toggle between folder group view and flat list view to tidy up.",
       targetId: "skills-folder-btn",
       position: 'bottom',
       page: 'skills',
       icon: <Info className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Neural Database Search",
-      content: "Filter your skills by name or neural signature using the search matrix. Locate specific training data instantly.",
+      title: "Create Folders / Clusters",
+      content: "In Folder View, you can click 'Create Cluster Directory' to build a specialized storage segment for your custom skills.",
+      targetId: "skills-add-folder-btn",
+      position: 'bottom',
+      page: 'skills',
+      icon: <Folder className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Database Search",
+      content: "Quickly filter skills by keying in names or tags using the search input.",
       targetId: "skills-search",
       position: 'bottom',
       page: 'skills',
@@ -229,15 +238,55 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Skill Analytics",
-      content: "Analyze your skill growth over time. The system tracks your consistency and provides a visual representation of your mastery.",
+      content: "Displays your training hours over time so you can inspect your consistency.",
       targetId: "skills-analytics-toggle",
       position: 'top',
       page: 'skills',
       icon: <BarChart3 className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Neural Purge",
-      content: "If you need to reset your progress for this sector, use the Purge button located at the bottom of each skill's details page. Warning: This action is irreversible.",
+      title: "Detailed Progress Metrics",
+      content: "Opening up a skill displays exact level milestones, total mastery hours, and daily habit metrics to analyze training patterns.",
+      targetId: "skills-detail-metrics",
+      position: 'right',
+      page: 'skills',
+      icon: <Activity className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Directory Assignment",
+      content: "Organize your skills inside functional directories. Click the directory assignment dropdown to assign this skill to a custom folder.",
+      targetId: "skills-detail-directory-select",
+      position: 'right',
+      page: 'skills',
+      icon: <Folder className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Skill Evolution Rewards",
+      content: "Neural Rewards automatically issue points to your ability score stats every time this skill levels up.",
+      targetId: "skills-detail-neural-rewards",
+      position: 'left',
+      page: 'skills',
+      icon: <Trophy className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Add Level-Up Rewards",
+      content: "Amplify your growth! Expand which attributes are automatically rewarded by choosing stats from this selector.",
+      targetId: "skills-detail-add-reward-select",
+      position: 'left',
+      page: 'skills',
+      icon: <Plus className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Embedded Synergies",
+      content: "Add custom effects, requirements, and background parameters to this skill. Click the '+' icon to register new synergies.",
+      targetId: "skills-detail-add-synergy-btn",
+      position: 'left',
+      page: 'skills',
+      icon: <Zap className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Erase Progress",
+      content: "If you need to wipe training milestones, click the Purge button inside skill details. Note: Deleted data is lost forever.",
       targetId: "skills-purge-btn",
       position: 'top',
       page: 'skills',
@@ -245,8 +294,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     // JOBS PAGE
     {
-      title: "Job Classifications",
-      content: "Jobs represent your professional path. They offer significant stat boosts and unique effects as you level them up.",
+      title: "Job Classes",
+      content: "Jobs map to your professional career tracks. Levels here grant stat boosts and passive loop adjustments.",
       targetId: "nav-jobs",
       position: 'top',
       page: 'landing',
@@ -254,48 +303,96 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Job Selection",
-      content: "You can equip one primary job. Leveling a job requires dedicated time and effort, rewarding you with permanent stat increases.",
+      content: "Equip a primary career track to direct your main focus. Leveling requires training hours in corresponding skills.",
       targetId: "jobs-list",
       position: 'right',
       page: 'jobs',
       icon: <Zap className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Initialize Job",
-      content: "Use this to create a new Job class. Define its title and neural signature to begin tracking progress.",
+      title: "Add New Job",
+      content: "Press here to initialize a new job class. Match it to a discipline to begin tracking hours.",
       targetId: "jobs-add-btn",
       position: 'left',
       page: 'jobs',
       icon: <Plus className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Neural Search",
-      content: "Quickly filter through your neural classes using the search matrix. Locate specific evolution paths instantly.",
+      title: "Filter Careers",
+      content: "Search active and archived jobs by name to quickly check current level paths.",
       targetId: "jobs-search",
       position: 'bottom',
       page: 'jobs',
       icon: <Target className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Job Analytics",
-      content: "Toggle this panel to view your mastery distribution and evolution efficiency across all your jobs.",
+      title: "Class Distribution",
+      content: "Check this panel to see how your career time and class milestones are balanced.",
       targetId: "jobs-analytics",
       position: 'bottom',
       page: 'jobs',
       icon: <BarChart3 className="w-6 h-6 text-system-accent" />
     },
+    {
+      title: "Quick Log Hours",
+      content: "Add or subtract career hours directly (+1H, +5H) from the class dashboard to easily record updates.",
+      targetId: "jobs-detail-hours-panel",
+      position: 'right',
+      page: 'jobs',
+      icon: <Zap className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Class Level Rewards",
+      content: "Earning professional level milestones awards point multipliers and passive career benefits.",
+      targetId: "jobs-detail-level-rewards",
+      position: 'left',
+      page: 'jobs',
+      icon: <Trophy className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Manage Level-Up Rewards",
+      content: "Click the Settings/Cog icon to activate editing mode for class level rewards. This lets you modify assigned stat point yields.",
+      targetId: "jobs-detail-reward-config-toggle-btn",
+      position: 'top',
+      page: 'jobs',
+      icon: <Settings className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Add Reward Parameter",
+      content: "Add a new ability score parameter to your rewards config. Tweak stat point values rewarded on leveling up.",
+      targetId: "jobs-detail-add-reward-btn",
+      position: 'top',
+      page: 'jobs',
+      icon: <Plus className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Class Synergies",
+      content: "Embed dynamic neural multipliers, custom multipliers, or background effects. Press '+' to register passive benefits.",
+      targetId: "jobs-detail-add-synergy-btn",
+      position: 'left',
+      page: 'jobs',
+      icon: <Zap className="w-6 h-6 text-system-accent" />
+    },
+    {
+      title: "Erase Class progress",
+      content: "Use the Purge Class utility to wipe career logs if necessary. Exercise caution, as erased data is irrecoverable.",
+      targetId: "jobs-purge-btn",
+      position: 'top',
+      page: 'jobs',
+      icon: <X className="w-6 h-6 text-red-400" />
+    },
     // QUESTS PAGE
     {
-      title: "Quest Nexus",
-      content: "Quests are your daily directives. Complete them to earn stat points and maintain your momentum.",
+      title: "Quest Board",
+      content: "Quests represent your daily objectives. Finish tasks to earn stat upgrades and avoid fail penalties.",
       targetId: "nav-quests",
       position: 'top',
       page: 'landing',
       icon: <Zap className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Active Directives",
-      content: "Here are your current quests. Complete them to earn stat points and maintain your momentum.",
+      title: "Active Tasks",
+      content: "Your active objectives are listed here. Tick off sub-quests to progress the main bar.",
       targetId: "quests-list",
       position: 'right',
       page: 'quests',
@@ -303,16 +400,16 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <Target className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Quest Types",
-      content: "Recurring quests help build habits with streaks, while One-Off quests are for specific objectives. Use the tabs to navigate your directives.",
+      title: "Daily vs. Direct",
+      content: "Recurring quests help build routine habits with streak counters. One-Off quests track single goals.",
       targetId: "quests-tabs",
       position: 'bottom',
       page: 'quests',
       icon: <Activity className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Quest Creation",
-      content: "Initialize new directives here. You can set the difficulty, rewards, and penalties for each quest.",
+      title: "Create Quest",
+      content: "Initialize target quests here. Configure difficulty weights, target stats, and penalties for failing.",
       targetId: "quests-add-btn",
       position: 'left',
       page: 'quests',
@@ -320,16 +417,16 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <Plus className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Directive Search",
-      content: "Quickly locate specific directives using the search matrix. Filter by title or objective keywords.",
+      title: "Filter Objectives",
+      content: "Instantly search through quests by entering keywords from the title.",
       targetId: "quests-search",
       position: 'bottom',
       page: 'quests',
       icon: <Target className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "System Log",
-      content: "The System Log maintains a permanent record of every directive outcome, successful or otherwise.",
+      title: "Quest Log",
+      content: "Switch to this tab to audit previous results, checking both completed goals and failed attempts.",
       targetId: "quests-log-tab",
       position: 'bottom',
       page: 'quests',
@@ -337,8 +434,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <Info className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Chronicle of Actions",
-      content: "Review your past performance in detail. Each entry represents a completed or failed directive.",
+      title: "History Feed",
+      content: "A detailed registry of quest outcomes. Each block indicates a finished or expired directive.",
       targetId: "quests-log-container",
       position: 'top',
       page: 'quests',
@@ -346,8 +443,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <Info className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Log Entry",
-      content: "Each log entry shows the quest title, timestamp, and outcome. You can edit the title of recent entries if needed.",
+      title: "Edit Entry",
+      content: "Adjust details on recent logs or fix text labels directly inside the history items.",
       targetId: "quests-log-entry",
       position: 'bottom',
       page: 'quests',
@@ -356,48 +453,48 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     // TIMELOG PAGE
     {
-      title: "The Chronicle",
-      content: "The Timelog is your historical record. It tracks how you allocate your most precious resource: Time.",
+      title: "The Timelog",
+      content: "Tracks exactly how your hours are distributed across various routine tasks.",
       targetId: "nav-timelog",
       position: 'top',
       page: 'landing',
       icon: <Clock className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Temporal Calendar",
-      content: "Select a day to view or log your activities. The system highlights days with recorded neural activity.",
+      title: "Calendar Ledger",
+      content: "Select specific days to view detailed hour slots. Highlighted blocks show days with recorded practice.",
       targetId: "timelog-calendar",
       position: 'right',
       page: 'timelog',
       icon: <Clock className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Calendar View",
-      content: "Switch to the Calendar view to see your daily time allocation in a structured grid format.",
+      title: "Grid Layout",
+      content: "Review a static structural view of your hourly timeline blocks logged throughout the day.",
       targetId: "timelog-view-toggle",
       position: 'bottom',
       page: 'timelog',
       icon: <Info className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Flow View",
-      content: "Switch to the Flow view to see your activity patterns over time, highlighting your most productive periods.",
+      title: "Flow Layout",
+      content: "Review a visual summary of your daily active periods, detailing when you are most productive.",
       targetId: "timelog-view-toggle",
       position: 'bottom',
       page: 'timelog',
       icon: <Info className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Matrix Contexts",
-      content: "Categorize your time using Contexts. This allows the system to perform a 'Systemic Autopsy' on your progress.",
+      title: "Category Tags",
+      content: "Group related logs with colored tags to keep your hour distribution cleanly organized.",
       targetId: "timelog-contexts",
       position: 'left',
       page: 'timelog',
       icon: <Brain className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Productivity Pulse",
-      content: "This chart visualizes your activity intensity. High bars indicate peak performance windows.",
+      title: "Productivity Heatmap",
+      content: "Charts plotting your log frequency. High spikes highlight your peak daily habits.",
       targetId: "timelog-pulse",
       position: 'bottom',
       page: 'timelog',
@@ -405,8 +502,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <BarChart3 className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Time Allocation",
-      content: "The heatmap shows your daily distribution. Use this to ensure you are spending enough time on your primary objectives.",
+      title: "Time Shares",
+      content: "D3 heatmap displays the total minutes assigned per category tag to audit daily progress.",
       targetId: "timelog-analytics",
       position: 'bottom',
       page: 'timelog',
@@ -414,8 +511,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <Clock className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Activity Trend",
-      content: "Monitor your neural activity trends over long periods. Identify growth patterns and consistency levels.",
+      title: "Consistency Plots",
+      content: "Trend lines showing your practice routine stability over monthly cycles.",
       targetId: "timelog-trend",
       position: 'bottom',
       page: 'timelog',
@@ -423,8 +520,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       icon: <Activity className="w-6 h-6 text-system-accent" />
     },
     {
-      title: "Temporal Purge",
-      content: "Clear your log data for the current period if you need a fresh start. Use with caution.",
+      title: "Clear Logs",
+      content: "Reset log data for the active date if you need a fresh start. Proceed with caution.",
       targetId: "timelog-purge-btn",
       position: 'bottom',
       page: 'timelog',
@@ -433,7 +530,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     // SYSTEM MENU
     {
       title: "System Menu",
-      content: "The System Menu is your central hub for configuration. From here, you can access the System Manual, replay this Guide, and adjust your interface settings.",
+      content: "Central hub for configuration. Tap here to open the Manual, replay this Guide, or export backups.",
       targetId: "nav-settings",
       position: 'top',
       page: 'landing',
@@ -441,7 +538,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "Guide Mode",
-      content: "If you ever need to review these protocols again, you can restart Guide Mode from here.",
+      content: "Restart this interactive tutorial anytime to review basic menu layouts.",
       targetId: "system-menu-guide-btn",
       position: 'top',
       page: 'landing',
@@ -449,7 +546,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     {
       title: "System Manual",
-      content: "This is where you access the System Manual for a deep dive into the mechanics of your evolution. It covers everything from stat formulas to data integrity.",
+      content: "The master guide detailing stat calculations, leveling thresholds, backup steps, and offline sync parameters.",
       targetId: "system-menu-manual-btn",
       position: 'top',
       page: 'landing',
@@ -457,8 +554,8 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     },
     // INSTRUCTIONS PAGE
     {
-      title: "Neural Documentation",
-      content: "Review the core directives and operational protocols. Knowledge is the first step toward transcendence.",
+      title: "System Reference",
+      content: "Browse the absolute leveling rules and tracking math. A complete index of how points are distributed.",
       targetId: "instructions-content",
       position: 'bottom',
       page: 'instructions',
@@ -467,7 +564,7 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
     // CONCLUSION
     {
       title: "System Ready",
-      content: "You are now familiar with the core protocols. Start by creating your first Skill and Job, then set your daily Quests. Evolution awaits.",
+      content: "The tour is complete. Create your first Skill and Job class, then configure daily goals on the Quest Board.",
       position: 'center',
       page: 'landing',
       icon: <Play className="w-6 h-6 text-system-accent" />
@@ -498,6 +595,46 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
   }, [currentStep, steps]);
 
   useEffect(() => {
+    if (!isChangingStep) {
+      const step = steps[currentStep];
+      if (!step) return;
+
+      const skillDetailIds = [
+        'skills-detail-metrics',
+        'skills-detail-neural-rewards',
+        'skills-purge-btn',
+        'skills-detail-directory-select',
+        'skills-detail-add-reward-select',
+        'skills-detail-add-synergy-btn'
+      ];
+      if (step.targetId && skillDetailIds.includes(step.targetId)) {
+        window.dispatchEvent(new CustomEvent('open-skill-detail'));
+      }
+
+      if (step.targetId === 'skills-folder-btn' || step.targetId === 'skills-add-folder-btn') {
+        window.dispatchEvent(new CustomEvent('set-skills-folder-view'));
+      }
+
+      const jobDetailIds = [
+        'jobs-detail-hours-panel',
+        'jobs-detail-level-rewards',
+        'jobs-purge-btn',
+        'jobs-detail-add-synergy-btn'
+      ];
+      const jobRewardConfigIds = [
+        'jobs-detail-reward-config-toggle-btn',
+        'jobs-detail-add-reward-btn'
+      ];
+
+      if (step.targetId && jobDetailIds.includes(step.targetId)) {
+        window.dispatchEvent(new CustomEvent('open-job-detail'));
+      } else if (step.targetId && jobRewardConfigIds.includes(step.targetId)) {
+        window.dispatchEvent(new CustomEvent('open-job-reward-config'));
+      }
+    }
+  }, [isChangingStep, currentStep, steps]);
+
+  useEffect(() => {
     const step = steps[currentStep];
     if (step.page) {
       onNavigate(step.page);
@@ -514,6 +651,49 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
       window.dispatchEvent(new CustomEvent('open-system-menu'));
     } else {
       window.dispatchEvent(new CustomEvent('close-system-menu'));
+    }
+
+    // Dynamic walkthrough detail modal triggers
+    const skillDetailIds = [
+      'skills-detail-metrics',
+      'skills-detail-neural-rewards',
+      'skills-purge-btn',
+      'skills-detail-directory-select',
+      'skills-detail-add-reward-select',
+      'skills-detail-add-synergy-btn'
+    ];
+    if (step.targetId && skillDetailIds.includes(step.targetId)) {
+      window.dispatchEvent(new CustomEvent('open-skill-detail'));
+    } else {
+      window.dispatchEvent(new CustomEvent('close-skill-detail'));
+    }
+
+    // Skills Folder/List view toggles
+    if (step.targetId === 'skills-folder-btn' || step.targetId === 'skills-add-folder-btn') {
+      window.dispatchEvent(new CustomEvent('set-skills-folder-view'));
+    } else if (step.page === 'skills') {
+      window.dispatchEvent(new CustomEvent('set-skills-list-view'));
+    }
+
+    const jobDetailIds = [
+      'jobs-detail-hours-panel',
+      'jobs-detail-level-rewards',
+      'jobs-purge-btn',
+      'jobs-detail-add-synergy-btn'
+    ];
+    const jobRewardConfigIds = [
+      'jobs-detail-reward-config-toggle-btn',
+      'jobs-detail-add-reward-btn'
+    ];
+
+    if (step.targetId && jobDetailIds.includes(step.targetId)) {
+      window.dispatchEvent(new CustomEvent('open-job-detail'));
+      window.dispatchEvent(new CustomEvent('close-job-reward-config'));
+    } else if (step.targetId && jobRewardConfigIds.includes(step.targetId)) {
+      window.dispatchEvent(new CustomEvent('open-job-reward-config'));
+    } else {
+      window.dispatchEvent(new CustomEvent('close-job-detail'));
+      window.dispatchEvent(new CustomEvent('close-job-reward-config'));
     }
   }, [currentStep, steps, onNavigate]);
 
@@ -559,7 +739,9 @@ const Walkthrough: React.FC<WalkthroughProps> = ({ onClose, onNavigate }) => {
           if (hasScrolledForStep.current !== currentStep) {
             hasScrolledForStep.current = currentStep;
             let scrollBlock: ScrollLogicalPosition = 'center';
-            if (step.position === 'top') {
+            if (step.targetId === 'skills-purge-btn' || step.targetId === 'jobs-purge-btn') {
+              scrollBlock = 'center';
+            } else if (step.position === 'top') {
               scrollBlock = 'end';
             } else if (step.position === 'bottom' || step.targetId === 'timelog-calendar' || step.targetId === 'status-synergy-storage' || step.targetId === 'status-archive-system') {
               // If we're placing the panel at the bottom, or if it's a tall element where we only highlight the top,

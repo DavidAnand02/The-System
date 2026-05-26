@@ -259,39 +259,35 @@ export const getLevelFromStats = (totalStats: number) => {
 };
 
 export const INSPIRATIONAL_QUOTES = [
-  "The only way to do great work is to love what you do.",
-  "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-  "Believe you can and you're halfway there.",
-  "The future belongs to those who believe in the beauty of their dreams.",
-  "It does not matter how slowly you go as long as you do not stop.",
-  "Everything you've ever wanted is on the other side of fear.",
-  "Hardships often prepare ordinary people for an extraordinary destiny.",
-  "The secret of getting ahead is getting started.",
-  "Don't watch the clock; do what it does. Keep going.",
-  "You are never too old to set another goal or to dream a new dream.",
-  "The System is watching your progress. Stay focused.",
-  "Leveling up requires consistency, not just intensity.",
-  "Your potential is limitless, provided you follow the protocol.",
-  "Every small action is a step toward your ultimate class evolution."
+  "The System tracks actions, not intentions. Focus and execute.",
+  "Consistency forms the foundation of all leveling paths.",
+  "Your stats are an objective reflection of your daily habits.",
+  "Quests are self-assigned directives. Honor your word.",
+  "Time logged represents life invested. Choose your skills wisely.",
+  "No shortcuts exist in the source code of self-improvement.",
+  "Accept the training penalty. Calibrate, restart, and continue.",
+  "Status limits are mental constructs. Break them.",
+  "Even 15 minutes of training builds progress towards the next rank.",
+  "The best time to log a skill hour was yesterday. The second best starts now."
 ];
 
 export const getRankDetails = (level: number) => {
-  if (level >= 95) return { label: 'S', color: 'text-amber-400', bgColor: 'bg-amber-400', glow: 'drop-shadow-[0_0_30px_rgba(251,191,36,0.7)]', glowColor: '#fbbf24' };
-  if (level >= 85) return { label: 'A', color: 'text-purple-500', bgColor: 'bg-purple-500', glow: 'drop-shadow-[0_0_25px_rgba(168,85,247,0.6)]', glowColor: '#a855f7' };
-  if (level >= 75) return { label: 'B', color: 'text-blue-500', bgColor: 'bg-blue-500', glow: 'drop-shadow-[0_0_20px_rgba(59,130,246,0.5)]', glowColor: '#3b82f6' };
-  if (level >= 60) return { label: 'C', color: 'text-emerald-500', bgColor: 'bg-emerald-500', glow: 'drop-shadow-[0_0_8px_rgba(16,185,129,0.25)]', glowColor: '#10b981' };
-  if (level >= 40) return { label: 'D', color: 'text-cyan-400', bgColor: 'bg-cyan-400', glow: 'drop-shadow-[0_0_10px_rgba(34,211,238,0.3)]', glowColor: '#22d3ee' };
-  if (level >= 20) return { label: 'E', color: 'text-slate-400', bgColor: 'bg-slate-400', glow: '', glowColor: '#94a3b8' };
-  return { label: 'F', color: 'text-slate-500', bgColor: 'bg-slate-500', glow: '', glowColor: '#64748b' };
+  if (level >= 95) return { label: 'S', color: 'text-amber-400', bgColor: 'bg-amber-400', glow: 'drop-shadow-[0_0_8px_rgba(251,191,36,0.65)]', glowColor: '#fbbf24' };
+  if (level >= 85) return { label: 'A', color: 'text-red-500', bgColor: 'bg-red-500', glow: 'drop-shadow-[0_0_7px_rgba(239,68,68,0.6)]', glowColor: '#ef4444' };
+  if (level >= 75) return { label: 'B', color: 'text-purple-500', bgColor: 'bg-purple-500', glow: 'drop-shadow-[0_0_6px_rgba(168,85,247,0.55)]', glowColor: '#a855f7' };
+  if (level >= 60) return { label: 'C', color: 'text-blue-600', bgColor: 'bg-blue-600', glow: 'drop-shadow-[0_0_6px_rgba(37,99,235,0.52)]', glowColor: '#2563eb' };
+  if (level >= 40) return { label: 'D', color: 'text-emerald-500', bgColor: 'bg-emerald-500', glow: 'drop-shadow-[0_0_5px_rgba(16,185,129,0.5)]', glowColor: '#10b981' };
+  if (level >= 20) return { label: 'E', color: 'text-cyan-400', bgColor: 'bg-cyan-400', glow: 'drop-shadow-[0_0_5px_rgba(34,211,238,0.5)]', glowColor: '#22d3ee' };
+  return { label: 'F', color: 'text-white', bgColor: 'bg-white', glow: 'drop-shadow-[0_0_5px_rgba(255,255,255,0.48)]', glowColor: '#ffffff' };
 };
 
 export const RANK_UP_MESSAGES: Record<string, { title: string, message: string }> = {
-  'E': { title: 'Rank E Reached', message: 'You have stepped beyond the absolute baseline. The journey of a thousand miles begins with a single step. Keep pushing.' },
-  'D': { title: 'Rank D Reached', message: 'You are no longer a novice. Your foundation is solidifying. The system acknowledges your dedication.' },
-  'C': { title: 'Rank C Reached', message: 'You have reached the realm of competence. You are now above average. Continue to hone your craft.' },
-  'B': { title: 'Rank B Reached', message: 'Exceptional progress. You are becoming a master in your own right. Few reach this level of proficiency.' },
-  'A': { title: 'Rank A Reached', message: 'Outstanding achievement. You are among the elite. Your skills are a force to be reckoned with.' },
-  'S': { title: 'Rank S Reached', message: 'Absolute pinnacle. You have transcended normal limits. The system bows to your mastery.' }
+  'E': { title: 'Rank E Reached', message: 'First milestone cleared. You have exceeded the common baseline. Continue logging progress.' },
+  'D': { title: 'Rank D Reached', message: 'Rank D unlocked. Your skill block is solidifying. The tracking matrix acknowledges your training.' },
+  'C': { title: 'Rank C Reached', message: 'Competence class verified. You are now steadily above standard limits. Hone your main skills.' },
+  'B': { title: 'Rank B Reached', message: 'Elite level approaching. Very few players maintain the habit loops required for Rank B.' },
+  'A': { title: 'Rank A Reached', message: 'Peak state active. Your consistency metrics place you in the top tier of active profiles.' },
+  'S': { title: 'Rank S Reached', message: 'Absolute limit-break status. The system confirms complete mastery of your designated class.' }
 };
 
 export const RecalibrateIcon = () => (

@@ -616,7 +616,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
           {/* Left Column: Progress, Folder, & Synergies */}
           <div className="col-span-12 lg:col-span-5 space-y-4 sm:space-y-6">
             {/* Progress Section */}
-            <div className="bg-system-bg-panel-solid/82 rounded-3xl p-5 sm:p-7 border border-system-accent/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
+            <div id="skills-detail-metrics" className="bg-system-bg-panel-solid/82 rounded-3xl p-5 sm:p-7 border border-system-accent/10 backdrop-blur-2xl shadow-2xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-system-accent/5 rounded-full -mr-16 -mt-16 blur-2xl group-hover:bg-system-accent/10 transition-colors" />
               
               <div className="grid grid-cols-2 gap-4 mb-5 relative">
@@ -748,6 +748,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
               
               <div className="space-y-3">
                 <Select
+                  id="skills-detail-directory-select"
                   value={skill.folderId || "none"}
                   onChange={(e) => moveSkillToFolder(e.target.value === "none" ? null : e.target.value)}
                   className="w-full font-orbitron text-[10px] sm:text-xs bg-system-bg-panel/40 border-system-accent/20 rounded-xl sm:rounded-2xl py-3 sm:py-4 px-4 sm:px-6 focus:border-system-accent transition-all"
@@ -776,6 +777,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                   </div>
                 </div>
                 <button 
+                  id="skills-detail-add-synergy-btn"
                   onClick={() => setShowAddEffectForm(true)}
                   className="p-1.5 bg-system-accent/10 text-system-accent hover:bg-system-accent hover:text-system-bg-base rounded-lg transition-all"
                 >
@@ -813,7 +815,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
           {/* Right Column: Rewards, History, & Analysis */}
           <div className="col-span-12 lg:col-span-7 space-y-6 sm:space-y-8">
             {/* Evolution Rewards */}
-            <div className="space-y-4">
+            <div id="skills-detail-neural-rewards" className="space-y-4">
               <div className="flex items-center justify-between border-b border-system-accent/20 pb-3">
                 <div className="flex items-center space-x-3">
                   <div className="p-1.5 rounded-lg bg-amber-400/10 text-amber-400">
@@ -857,6 +859,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 </div>
                 
                 <Select
+                  id="skills-detail-add-reward-select"
                   value=""
                   onChange={(e) => {
                     if (e.target.value) addStatToReward(e.target.value as StatKey);
@@ -994,6 +997,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
             <div className="flex justify-end pt-2">
               {!showDeleteConfirm ? (
                 <button
+                  id="skills-purge-btn"
                   onClick={() => setShowDeleteConfirm(true)}
                   className="w-fit px-5 py-2.5 flex items-center justify-center gap-2 rounded-xl border border-red-500/40 text-red-500 hover:text-red-400 hover:border-red-500/60 hover:bg-red-500/10 hover:shadow-[0_0_12px_rgba(239,68,68,0.15)] transition-all duration-300 font-orbitron text-[9px] uppercase tracking-[0.2em] font-bold group cursor-pointer"
                 >
@@ -1023,6 +1027,7 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
     </div>
 
       <SynergyModal 
+        id="skills-detail-add-synergy-modal"
         isOpen={showAddEffectForm}
         onClose={() => setShowAddEffectForm(false)}
         title="Embed Skill Synergy"
@@ -1048,6 +1053,39 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
   
   const [activeTab, setActiveTab] = useState<'mental' | 'physical'>('mental');
   const [selectedSkillId, setSelectedSkillId] = useState<string | null>(null);
+
+  React.useEffect(() => {
+    const handleOpenDetail = () => {
+      const currentSkills = usePlayerStore.getState().skills;
+      const tabSkills = currentSkills.filter(s => s.type === activeTab);
+      if (tabSkills.length > 0) {
+        setSelectedSkillId(tabSkills[0].id);
+      } else if (currentSkills.length > 0) {
+        setSelectedSkillId(currentSkills[0].id);
+      }
+    };
+    const handleCloseDetail = () => {
+      setSelectedSkillId(null);
+    };
+
+    const handleSetFolderView = () => {
+      setViewMode('folder');
+    };
+    const handleSetListView = () => {
+      setViewMode('list');
+    };
+
+    window.addEventListener('open-skill-detail', handleOpenDetail);
+    window.addEventListener('close-skill-detail', handleCloseDetail);
+    window.addEventListener('set-skills-folder-view', handleSetFolderView);
+    window.addEventListener('set-skills-list-view', handleSetListView);
+    return () => {
+      window.removeEventListener('open-skill-detail', handleOpenDetail);
+      window.removeEventListener('close-skill-detail', handleCloseDetail);
+      window.removeEventListener('set-skills-folder-view', handleSetFolderView);
+      window.removeEventListener('set-skills-list-view', handleSetListView);
+    };
+  }, [activeTab]);
 
   React.useEffect(() => {
     const mainContent = document.getElementById('main-content');
@@ -1308,6 +1346,27 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
             </div>
           ) : (
             <div className="space-y-12">
+              {/* Directory Controls */}
+              <div className="flex flex-col sm:flex-row justify-between items-center bg-system-bg-panel/20 p-4 sm:p-5 rounded-3xl border border-system-accent/10 sm:h-[72px] gap-3">
+                <div className="flex items-center space-x-3.5">
+                  <div className="p-2 rounded-xl bg-system-accent/5 border border-system-accent/15 text-system-accent shrink-0">
+                    <FolderIcon className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-orbitron text-[10px] sm:text-xs uppercase tracking-[0.2em] text-system-text sm:leading-none">Neural Cluster Directory</h3>
+                    <span className="text-[7px] sm:text-[8px] text-system-text-muted uppercase tracking-[0.1em] mt-1 block opacity-60">Organize pathways into categorical subsystems</span>
+                  </div>
+                </div>
+                <button
+                  id="skills-add-folder-btn"
+                  onClick={() => setShowFolderForm(true)}
+                  className="px-4 py-2.5 bg-system-accent/5 hover:bg-system-accent/10 border border-dashed border-system-accent/30 hover:border-system-accent/60 text-system-accent hover:text-system-text rounded-xl font-orbitron text-[9px] uppercase tracking-[0.2em] font-bold transition-all duration-300 hover:shadow-[0_0_12px_rgba(0,255,157,0.15)] flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto hover-glitch shrink-0"
+                >
+                  <Plus className="w-3.5 h-3.5 shrink-0" />
+                  Create Cluster Directory
+                </button>
+              </div>
+
               {/* Folders */}
               {folders.map(folder => (
                 <div key={folder.id} className="space-y-6">
@@ -1442,7 +1501,7 @@ const SkillsPage: React.FC<{ onBack: () => void }> = React.memo(({ onBack }) => 
 
       {showFolderForm && (
         <div className="fixed inset-0 bg-system-bg-base/90 backdrop-blur-md flex items-center justify-center z-50 p-4">
-          <div className="bg-system-bg-panel border border-system-accent/30 rounded-3xl p-8 max-w-md w-full animate-in zoom-in-95 duration-300 shadow-[0_0_50px_rgba(0,255,157,0.1)]">
+          <div id="skills-add-folder-modal" className="bg-system-bg-panel border border-system-accent/30 rounded-3xl p-8 max-w-md w-full animate-in zoom-in-95 duration-300 shadow-[0_0_50px_rgba(0,255,157,0.1)]">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-orbitron text-system-accent uppercase tracking-tighter system-glow">Create Folder</h2>
               <button onClick={() => setShowFolderForm(false)} className="p-2 hover:bg-system-accent/10 rounded-xl transition-all text-system-text-muted hover:text-system-accent hover-glitch">

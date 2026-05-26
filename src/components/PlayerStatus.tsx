@@ -371,17 +371,27 @@ export const PlayerStatus: React.FC<PlayerStatusProps> = React.memo(({
             {/* Primary Glow */}
             <motion.div 
               key={`primary-${rank.label}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: rank.label === 'C' ? 0.05 : 0.15 }}
-              className={`absolute -inset-20 rounded-full blur-[6rem] ${rank.bgColor}`} 
+              initial={{ opacity: 0, x: "-50%", y: "-50%", scale: 0.9 }}
+              animate={{ 
+                opacity: (rank.label === 'E' || rank.label === 'F') ? 0.08 : rank.label === 'C' ? 0.12 : 0.16,
+                x: "-50%", 
+                y: "-50%", 
+                scale: 1 
+              }}
+              className={`absolute top-1/2 left-1/2 w-48 h-48 rounded-full blur-[2.5rem] ${rank.bgColor}`} 
               transition={{ duration: 1.5 }}
             />
             {/* Secondary Core Glow */}
             <motion.div 
               key={`secondary-${rank.label}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: rank.label === 'C' ? 0.08 : 0.25 }}
-              className={`absolute inset-0 rounded-full blur-[3rem] ${rank.bgColor}`}
+              initial={{ opacity: 0, x: "-50%", y: "-50%", scale: 0.9 }}
+              animate={{ 
+                opacity: (rank.label === 'E' || rank.label === 'F') ? 0.15 : rank.label === 'C' ? 0.22 : 0.3,
+                x: "-50%", 
+                y: "-50%", 
+                scale: 1 
+              }}
+              className={`absolute top-1/2 left-1/2 w-32 h-32 rounded-full blur-[1.25rem] ${rank.bgColor}`}
               transition={{ duration: 1 }}
             />
             

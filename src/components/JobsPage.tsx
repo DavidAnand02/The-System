@@ -369,6 +369,40 @@ const JobsPage: React.FC<JobsPageProps> = React.memo(({ onBack }) => {
   const [selectedJobId, setSelectedJobId] = useState<string | null>(null);
 
   React.useEffect(() => {
+    const handleOpenDetail = () => {
+      const currentJobs = usePlayerStore.getState().jobs;
+      if (currentJobs.length > 0) {
+        setSelectedJobId(currentJobs[0].id);
+      }
+    };
+    const handleCloseDetail = () => {
+      setSelectedJobId(null);
+    };
+
+    const handleOpenRewards = () => {
+      const currentJobs = usePlayerStore.getState().jobs;
+      if (currentJobs.length > 0) {
+        setSelectedJobId(currentJobs[0].id);
+        setShowRewardConfigId(currentJobs[0].id);
+      }
+    };
+    const handleCloseRewards = () => {
+      setShowRewardConfigId(null);
+    };
+
+    window.addEventListener('open-job-detail', handleOpenDetail);
+    window.addEventListener('close-job-detail', handleCloseDetail);
+    window.addEventListener('open-job-reward-config', handleOpenRewards);
+    window.addEventListener('close-job-reward-config', handleCloseRewards);
+    return () => {
+      window.removeEventListener('open-job-detail', handleOpenDetail);
+      window.removeEventListener('close-job-detail', handleCloseDetail);
+      window.removeEventListener('open-job-reward-config', handleOpenRewards);
+      window.removeEventListener('close-job-reward-config', handleCloseRewards);
+    };
+  }, []);
+
+  React.useEffect(() => {
     const mainContent = document.getElementById('main-content');
     if (selectedJobId) {
       document.body.style.overflow = 'hidden';
@@ -769,6 +803,7 @@ const JobsPage: React.FC<JobsPageProps> = React.memo(({ onBack }) => {
       </AnimatePresence>
 
       <SynergyModal 
+        id="jobs-detail-add-synergy-modal"
         isOpen={!!effectCreator}
         onClose={() => setEffectCreator(null)}
         title="Add Class Effect"
@@ -976,7 +1011,7 @@ const JobDetail: React.FC<JobDetailProps> = React.memo(({
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2 sm:gap-2.5 mt-6 relative z-10 lg:max-w-[310px]">
+            <div id="jobs-detail-hours-panel" className="flex flex-col sm:flex-row gap-2 sm:gap-2.5 mt-6 relative z-10 lg:max-w-[310px]">
               <button 
                 onClick={() => addHours(job.id, 1)} 
                 className="flex-1 relative overflow-hidden group px-2.5 sm:px-4 lg:px-2 py-2 sm:py-3.5 lg:py-2 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 sm:gap-3 lg:gap-2"
@@ -1023,7 +1058,7 @@ const JobDetail: React.FC<JobDetailProps> = React.memo(({
         {/* Right Column: Rewards & Synergies */}
         <div className="col-span-12 lg:col-span-7 space-y-6 sm:space-y-8">
           {/* Rewards Section */}
-          <div className="space-y-4">
+          <div id="jobs-detail-level-rewards" className="space-y-4">
             <div className="flex items-center justify-between border-b border-system-accent/20 pb-3">
               <div className="flex items-center space-x-3">
                 <div className="p-1.5 rounded-lg bg-amber-400/10 text-amber-400">
@@ -1035,6 +1070,7 @@ const JobDetail: React.FC<JobDetailProps> = React.memo(({
                 </div>
               </div>
               <button 
+                id="jobs-detail-reward-config-toggle-btn"
                 onClick={() => setShowRewardConfigId(showRewardConfigId === job.id ? null : job.id)}
                 className={`p-1.5 rounded-lg transition-all ${showRewardConfigId === job.id ? 'bg-system-accent text-system-bg-base shadow-[0_0_8px_var(--system-accent-glow)]' : 'bg-system-bg-panel/40 text-system-text-muted hover:text-system-accent'}`}
               >
@@ -1097,6 +1133,7 @@ const JobDetail: React.FC<JobDetailProps> = React.memo(({
               
               {showRewardConfigId === job.id && (
                 <button 
+                  id="jobs-detail-add-reward-btn"
                   onClick={() => addStatToReward(job.id)}
                   className="col-span-full py-2 border border-dashed border-system-accent/20 rounded-xl text-[8px] font-orbitron text-system-accent hover:bg-system-accent/5 transition-all uppercase tracking-widest"
                 >
@@ -1181,6 +1218,7 @@ const JobDetail: React.FC<JobDetailProps> = React.memo(({
                 </div>
               </div>
               <button 
+                id="jobs-detail-add-synergy-btn"
                 onClick={() => setEffectCreator({ jobId: job.id })}
                 className="p-1.5 bg-system-accent/10 text-system-accent hover:bg-system-accent hover:text-system-bg-base rounded-lg transition-all"
               >
@@ -1225,6 +1263,7 @@ const JobDetail: React.FC<JobDetailProps> = React.memo(({
           <div className="flex justify-end pt-2">
             {!showDeleteConfirm ? (
               <button
+                id="jobs-purge-btn"
                 onClick={() => setShowDeleteConfirm(true)}
                 className="w-fit px-5 py-2.5 flex items-center justify-center gap-2 rounded-xl border border-red-500/40 text-red-500 hover:text-red-400 hover:border-red-500/60 hover:bg-red-500/10 hover:shadow-[0_0_12px_rgba(239,68,68,0.15)] transition-all duration-300 font-orbitron text-[9px] uppercase tracking-[0.2em] font-bold group cursor-pointer"
               >

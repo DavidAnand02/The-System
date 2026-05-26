@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface ModalProps {
+  id?: string;
   isOpen: boolean;
   onClose: () => void;
   title?: string;
@@ -12,6 +13,7 @@ interface ModalProps {
 }
 
 export const Modal: React.FC<ModalProps> = ({ 
+  id,
   isOpen, 
   onClose, 
   title, 
@@ -50,6 +52,7 @@ export const Modal: React.FC<ModalProps> = ({
           />
           
           <motion.div
+            id={id}
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
