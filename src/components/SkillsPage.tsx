@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import { Skill, PlayerData, StatKey, Folder } from '../types';
 import { ICONS, MAX_SKILL_HOURS, getRankDetails } from '../constants';
 import { Select } from './ui/Select';
-import { Search, Folder as FolderIcon, LayoutList, LayoutGrid, ChevronRight, ChevronDown, ChevronUp, Trophy, Settings2, Plus, X, Activity, Edit2, Check, Trash2, Zap, Edit, AlertTriangle } from 'lucide-react';
+import { Search, Folder as FolderIcon, LayoutList, LayoutGrid, ChevronRight, ChevronDown, ChevronUp, Trophy, Settings2, Plus, X, Activity, Edit2, Check, Trash2, Zap, Edit, AlertTriangle, Minus } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip as RechartsTooltip } from 'recharts';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -709,32 +709,30 @@ const SkillDetail: React.FC<{ skillId: string; onClose: () => void }> = React.me
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 sm:gap-2.5 mt-8 relative lg:max-w-[210px]">
+              <div className="grid grid-cols-4 gap-1.5 sm:gap-2 mt-8 relative">
                 <button 
                   onClick={() => trainSkill(1)}
-                  className="flex-1 relative overflow-hidden group px-2.5 sm:px-4 lg:px-2 py-2 sm:py-3.5 lg:py-2 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 sm:gap-3 lg:gap-2"
+                  className="relative overflow-hidden group py-2.5 rounded-xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 text-system-accent hover:text-system-accent-bright transition-all duration-300 shadow-md flex items-center justify-center cursor-pointer"
                 >
-                  <div className="absolute inset-0 bg-system-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="p-1 sm:p-2 lg:p-1.5 rounded-lg bg-system-accent/10 border border-system-accent/20 group-hover:bg-system-accent/20 transition-colors shrink-0">
-                    <Zap className="w-4 h-4 sm:w-5 sm:h-5 lg:w-3.5 lg:h-3.5 text-system-accent group-hover:scale-110 transition-transform" />
-                  </div>
-                  <div className="flex flex-col items-start min-w-0">
-                    <span className="font-orbitron text-sm sm:text-lg lg:text-xs xl:text-sm font-black text-system-text leading-none tracking-tighter opacity-95">+1H</span>
-                    <span className="font-orbitron text-[6px] sm:text-[8px] text-system-accent uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-1 truncate w-full opacity-60 lg:hidden">Neural Log</span>
-                  </div>
+                  <span className="font-orbitron font-bold text-xs tracking-wider text-system-accent group-hover:scale-105 transition-transform">+1H</span>
                 </button>
                 <button 
                   onClick={() => trainSkill(5)}
-                  className="flex-1 relative overflow-hidden group px-2.5 sm:px-4 lg:px-2 py-2 sm:py-3.5 lg:py-2 rounded-xl sm:rounded-2xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 transition-all duration-300 shadow-xl flex items-center justify-center gap-2 sm:gap-3 lg:gap-2"
+                  className="relative overflow-hidden group py-2.5 rounded-xl bg-system-bg-panel-solid/40 border border-system-accent/20 hover:border-system-accent/50 text-system-accent hover:text-system-accent-bright transition-all duration-300 shadow-md flex items-center justify-center cursor-pointer"
                 >
-                  <div className="absolute inset-0 bg-system-accent/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="p-1 sm:p-2 lg:p-1.5 rounded-lg bg-system-accent/10 border border-system-accent/20 group-hover:bg-system-accent/20 transition-colors shrink-0">
-                    <Activity className="w-4 h-4 sm:w-5 sm:h-5 lg:w-3.5 lg:h-3.5 text-system-accent group-hover:scale-110 transition-transform" />
-                  </div>
-                  <div className="flex flex-col items-start min-w-0">
-                    <span className="font-orbitron text-sm sm:text-lg lg:text-xs xl:text-sm font-black text-system-text leading-none tracking-tighter opacity-95">+5H</span>
-                    <span className="font-orbitron text-[6px] sm:text-[8px] text-system-accent uppercase tracking-[0.1em] sm:tracking-[0.2em] mt-1 truncate w-full opacity-60 lg:hidden">Neural Log</span>
-                  </div>
+                  <span className="font-orbitron font-bold text-xs tracking-wider text-system-accent group-hover:scale-105 transition-transform">+5H</span>
+                </button>
+                <button 
+                  onClick={() => trainSkill(-1)}
+                  className="relative overflow-hidden group py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 hover:border-red-500/40 text-red-500 transition-all duration-300 shadow-md flex items-center justify-center cursor-pointer"
+                >
+                  <span className="font-orbitron font-bold text-xs tracking-wider text-red-500 group-hover:scale-105 transition-transform">-1H</span>
+                </button>
+                <button 
+                  onClick={() => trainSkill(-5)}
+                  className="relative overflow-hidden group py-2.5 rounded-xl bg-red-500/10 border border-red-500/20 hover:border-red-500/40 text-red-500 transition-all duration-300 shadow-md flex items-center justify-center cursor-pointer"
+                >
+                  <span className="font-orbitron font-bold text-xs tracking-wider text-red-500 group-hover:scale-105 transition-transform">-5H</span>
                 </button>
               </div>
             </div>
